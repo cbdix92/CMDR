@@ -1,0 +1,80 @@
+﻿using System;
+using System.Drawing;
+
+namespace CMDR
+{
+    public class Transform
+    {
+        private int _x;
+        private int _y;
+        private int _z;
+        private int _xvel;
+        private int _yvel;
+        public GameObject Parent;
+
+        public int X
+        {
+            get => _x;
+            set
+            {
+                _x = value;
+                if (Parent.Collider) SpatialIndexer.CalcPos(Parent);
+            }
+        }
+        public int Y
+        {
+            get => _y;
+            set
+            {
+                _y = value;
+                if (Parent.Collider) SpatialIndexer.CalcPos(Parent);
+            }
+        }
+        public int Z
+        {
+            get => _z;
+            set
+            {
+                if (value > Render.ZDepth)
+                {
+                    _z = Render.ZDepth;
+                }
+                else _z = Math.Max(0, value);
+            }
+        }
+
+        public int Xvel
+        {
+            get => _xvel;
+            set
+            {
+                if (_xvel == 0 && value != 0)
+                {
+                    Parent.Active = true;
+                }
+                _xvel = value;
+            }
+        }
+        public int Yvel
+        {
+            get => _yvel;
+            set
+            {
+                if (_yvel == 0 && value != 0)
+                {
+                    Parent.Active = true;
+                }
+                _yvel = value;
+            }
+        }
+        public Transform(GameObject parent, int x = 0, int y = 0, int z = 0)
+        {
+            Parent = parent;
+            X = x;
+            Y = y;
+            Z = z;
+            Xvel = 0;
+            Yvel = 0;
+        }
+    }
+}

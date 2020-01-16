@@ -1,0 +1,10 @@
+C:\Users\cbdix\OneDrive\Desktop\Test\obj\Debug\Test.csprojAssemblyReference.cache
+C:\Users\cbdix\OneDrive\Desktop\Test\bin\Debug\Test.exe.config
+C:\Users\cbdix\OneDrive\Desktop\Test\bin\Debug\Test.exe
+C:\Users\cbdix\OneDrive\Desktop\Test\bin\Debug\Test.pdb
+C:\Users\cbdix\OneDrive\Desktop\Test\bin\Debug\CMDR.dll
+C:\Users\cbdix\OneDrive\Desktop\Test\bin\Debug\CMDR.pdb
+C:\Users\cbdix\OneDrive\Desktop\Test\obj\Debug\Test.csproj.CopyComplete
+C:\Users\cbdix\OneDrive\Desktop\Test\obj\Debug\Test.exe
+C:\Users\cbdix\OneDrive\Desktop\Test\obj\Debug\Test.pdb
+C:\Users\cbdix\OneDrive\Desktop\Test\obj\Debug\Test_MarkupCompile.cache

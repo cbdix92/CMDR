@@ -1,0 +1,9 @@
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\bin\Debug\CMDR.dll
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\bin\Debug\CMDR.pdb
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.csprojAssemblyReference.cache
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.csproj.CopyComplete
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\bin\Debug\Test.exe.config
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\bin\Debug\Test.exe
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\bin\Debug\Test.pdb
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.exe
+C:\Users\cbdix\OneDrive\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.pdb

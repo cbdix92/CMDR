@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace CMDR
+{
+    internal static partial class Physics
+    {
+        public static void Init()
+        {
+
+        }
+        internal static void CheckCollision(this GameObject gameObject)
+        {
+            // BroadPhase
+
+            // Possible Colliders with "gameObject" courtesy of SpatialIndexer
+            List<GameObject> Colliders = gameObject.GetNearbyColliders();
+
+            foreach (GameObject Collider in Colliders)
+            {
+                if (gameObject == Collider) continue;
+
+                // Rect Check
+                if (RectCollisionCheck(gameObject, Collider))
+                {
+                    gameObject.UnMove();
+                }
+
+            }
+        }
+        internal static bool RectCollisionCheck(GameObject gameObject, GameObject collider)
+        {
+            if (gameObject.Transform.X <= collider.Transform.X + collider.Width
+             && gameObject.Transform.X + gameObject.Width >= collider.Transform.X
+             && gameObject.Transform.Y <= collider.Transform.Y + collider.Height
+             && gameObject.Transform.Y + gameObject.Height >= collider.Transform.Y)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        internal static bool HasZeroVelocity(this GameObject gameObject)
+        {
+            if (gameObject.Transform.Xvel == 0 && gameObject.Transform.Yvel == 0) return true;
+            return false;
+        }
+        internal static void Move(this GameObject GameObject)
+        {
+            GameObject.Transform.X += GameObject.Transform.Xvel;
+            GameObject.Transform.Y += GameObject.Transform.Yvel;
+        }
+        internal static void UnMove(this GameObject GameObject)
+        {
+            GameObject.Transform.X -= GameObject.Transform.Xvel;
+            GameObject.Transform.Y -= GameObject.Transform.Yvel;
+        }
+    }
+}
