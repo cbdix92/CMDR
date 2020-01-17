@@ -3,3 +3,9 @@ C:\Users\cbdix\OneDrive\Desktop\CMDR\bin\Debug\CMDR.pdb
 C:\Users\cbdix\OneDrive\Desktop\CMDR\obj\Debug\CMDR.csprojAssemblyReference.cache
 C:\Users\cbdix\OneDrive\Desktop\CMDR\obj\Debug\CMDR.dll
 C:\Users\cbdix\OneDrive\Desktop\CMDR\obj\Debug\CMDR.pdb
+C:\Users\Coleton\Desktop\CMDR\bin\Debug\CMDR.dll
+C:\Users\Coleton\Desktop\CMDR\bin\Debug\CMDR.pdb
+C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.csprojAssemblyReference.cache
+C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.dll
+C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.pdb
+C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.csproj.CoreCompileInputs.cache

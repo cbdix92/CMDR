@@ -37,8 +37,8 @@ namespace CMDR
         public static void Init()
         {
             InputUpdates = new Update(10);
-            RenderUpdates = new Update(100);
-            PhysicsUpdates = new Update(200);
+            RenderUpdates = new Update(30);
+            PhysicsUpdates = new Update(10);
 
             RenderUpdates.Handler += Render.Update;
             PhysicsUpdates.Handler += Physics.Update;

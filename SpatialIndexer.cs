@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMDR
 {
@@ -59,10 +56,12 @@ namespace CMDR
             int P2X = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width) / CellSize);
             int P2Y = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height) / CellSize);
 
-            if (P1X == P2X || P1Y == P2Y)
+            // "gameObject" is occupying one gridcell do not iterate.
+            if (P1X == P2X && P1Y == P2Y)
             {
-                if (!gameObject.CurrentCells.Contains(GridCells[0, 0])) gameObject.CurrentCells.Add(GridCells[0, 0]);
-                if (!GridCells[0, 0].Contains(gameObject)) GridCells[0, 0].Add(gameObject);
+                gameObject.CurrentCells.Add(GridCells[P1Y, P1X]);
+                GridCells[P1Y, P1X].Add(gameObject);
+                return;
             }
             for (int Y = P1Y; Y < P2Y; Y++)
                 for (int X = P1X; X < P2X; X++)

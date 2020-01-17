@@ -1,56 +1,46 @@
+﻿using CMDR;
 using System;
 using System.Windows.Input;
-using CMDR;
 
-
-namespace Main
+namespace Test
 {
-	static class MainClass
-	{
-		private static bool _isGameOver = false;
+    class Program
+    {
+        public static Display _Display;
+        public static Scene TestScene;
 
-		private static double _speed;
-		
-		[STAThread]
-		public static void Main(string[] args)
-		{
-			CMDR_.Init();
-			
-			Render.ShowDebug = true;
-			
-			Updater.RenderCap = 40;
-			
-			Scene test_Scene = new Scene();
-			
-			GameObject test_Object = test_Scene.AddGameObject();
-			GameObject test_Object2 = test_Scene.AddGameObject();
-			
-			
-			
-			test_Object.AddComponet(new Image("XXXXXX\nX  X"));
-			test_Object2.AddComponet(new Image("OOO\nOOO\nOOO"));
-			
-			test_Object2.transform.Teleport(10,10);
+        public static GameObject GameObject1;
+        public static GameObject GameObject2;
 
-			test_Object.Collider = true;
-			test_Object2.Collider = true;
+        public static int _speed = 5;
 
-			_speed = 5.5F;
-			KeyListener.AddKeyBind(Key.W, () => {test_Object.transform.Yvel = -_speed;}, () => { test_Object.transform.Yvel = 0;  } );
-			KeyListener.AddKeyBind(Key.A, () => {test_Object.transform.Xvel = -_speed;}, () => { test_Object.transform.Xvel = 0; } );
-			KeyListener.AddKeyBind(Key.S, () => {test_Object.transform.Yvel = _speed;}, () => { test_Object.transform.Yvel = 0; } );
-			KeyListener.AddKeyBind(Key.D, () => {test_Object.transform.Xvel = _speed;}, () => { test_Object.transform.Xvel = 0; } );
-			KeyListener.AddKeyBind(Key.C, () => {MainClass._isGameOver = true;});
-			
-            // Game loop
-			while (!_isGameOver)
-			{
-				
-				CMDR_.Update();
-				
-			}
-			
-			
-		}
-	}
+        public static CMDR.Image TestImage;
+        
+        [STAThread]
+        static void Main(string[] args)
+        {
+            _Display = new Display(1920 / 2, 1080 / 2);
+            SpatialIndexer.Init();
+            Updater.Init();
+            TestScene = new Scene();
+
+            GameObject1 = TestScene.AddGameObject();
+            GameObject2 = TestScene.AddGameObject(100, 300, 0);
+
+            TestImage = new CMDR.Image("Test.bmp");
+
+            GameObject1.AddComponet(TestImage);
+            GameObject2.AddComponet(TestImage);
+
+            GameObject1.Collider = true;
+            GameObject2.Collider = true;
+
+            KeyListener.AddKeyBind(Key.W, () => { GameObject1.Transform.Yvel = -_speed; }, () => { GameObject1.Transform.Yvel = 0; });
+            KeyListener.AddKeyBind(Key.A, () => { GameObject1.Transform.Xvel = -_speed; }, () => { GameObject1.Transform.Xvel = 0; });
+            KeyListener.AddKeyBind(Key.S, () => { GameObject1.Transform.Yvel = _speed; }, () => { GameObject1.Transform.Yvel = 0; });
+            KeyListener.AddKeyBind(Key.D, () => { GameObject1.Transform.Xvel = _speed; }, () => { GameObject1.Transform.Xvel = 0; });
+
+            _Display.Start();
+        }
+    }
 }
