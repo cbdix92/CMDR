@@ -12,6 +12,8 @@ namespace CMDR
         public Action OnKeyDown;
         public bool IsKeyDownTriggered { get; set; }
 
+        public long WhenKeyDownTriggered;
+
         public KeyBind(Key key, Action onKeyDown, Action onKeyUp)
         {
             Key = key;
@@ -22,6 +24,10 @@ namespace CMDR
         {
             if (Keyboard.IsKeyDown(Key))// && !IsKeyDownTriggered)
             {
+                if (!IsKeyDownTriggered)
+                {
+                    WhenKeyDownTriggered = DateTime.Ticks;
+                }
                 IsKeyDownTriggered = true;
                 OnCall = OnKeyDown;
                 return true;
@@ -57,6 +63,9 @@ namespace CMDR
         }
         public static void Listen(object caller, EventArgs e)
         {
+            // In the future. Combine Listen and HandlePressedKeys. 
+            // Since physics updates happen on seperate ticks there is no reason to not do these two methods at the same time on the same tick..
+            // and place the input events on the main update loop.
             foreach (KeyBind KeyBind in KeyBinds)
             {
                 if (KeyBind.Detect())
