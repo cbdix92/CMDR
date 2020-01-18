@@ -14,10 +14,6 @@ namespace CMDR
             this.Size = new Size(sizeX, sizeY);
             this.Text = Assembly.GetEntryAssembly().FullName;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            
-            Render.Init(this);
-            Updater.Init();
-            SpatialIndexer.Init();
 
         }
         static public void Start()
