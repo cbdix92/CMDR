@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    internal static partial class Render
+    internal partial class Render
     {
         internal static Form Display;
         internal static BufferedGraphics Buffer;
@@ -13,7 +13,8 @@ namespace CMDR
 
         public static int ZDepth { get; set; }
 
-        public static void Init(Display display)
+        public static Render Render = new Render(Display);
+        private Render(Display display)
         {
             Display = display;
             Buffer_CONTEXT = BufferedGraphicsManager.Current;

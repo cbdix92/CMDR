@@ -28,13 +28,14 @@ namespace CMDR
             _timer.Dispose();
         }
     }
-    public static class Updater
+    public class Updater
     {
         public static Update InputUpdates;
         public static Update RenderUpdates;
         public static Update PhysicsUpdates;
 
-        internal static void Init()
+        public static Updater Updater = new Updater();
+        private Updater()
         {
             InputUpdates = new Update(10);
             RenderUpdates = new Update(30);

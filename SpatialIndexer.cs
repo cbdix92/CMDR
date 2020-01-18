@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    internal static class SpatialIndexer
+    internal class SpatialIndexer
     {
         public static List<GameObject>[,] GridCells;
 
@@ -20,7 +20,8 @@ namespace CMDR
         }
         private static int _gridLX, _gridLY;
 
-        public static void Init()
+        public static SpatialIndexer SpatialIndexer = new SpatialIndexer();
+        private SpatialIndexer()
         {
             if (_cellSize == 0) _cellSize = 25;
 

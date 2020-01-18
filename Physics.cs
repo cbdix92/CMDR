@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    internal static partial class Physics
+    internal partial class Physics
     {
-        public static void Init()
+        public static Physics Physics = new Physics();
+        private Physics()
         {
 
         }

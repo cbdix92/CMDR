@@ -41,12 +41,13 @@ namespace CMDR
         }
     }
 
-    public static class KeyListener
+    public class KeyListener
     {
         internal static List<KeyBind> KeyBinds = new List<KeyBind>();
         private static List<KeyBind> _triggeredKeys = new List<KeyBind>();
 
-        public static void Init()
+        public KeyListener KeyListener = new KeyListener();
+        private KeyListener()
         {
 
         }
