@@ -3,12 +3,11 @@ using System.IO;
 
 namespace CMDR
 {
-    public class Image : Componet
+    public class Image : Component
     {
         private System.Drawing.Image _image;
-        public Image(string src)
+        public Image(string src) : base (ComponentType.Image)
         {
-            ID = "Image";
             try
             {
                 _image = System.Drawing.Image.FromFile(src);
@@ -18,7 +17,7 @@ namespace CMDR
                 throw new FileNotFoundException($"The file: '{src}' Could not be found!");
             }
         }
-        public override System.Drawing.Image GetImage()
+        public override System.Drawing.Image GetRenderData()
         {
             return _image;
         }

@@ -20,7 +20,7 @@ namespace CMDR
         }
         public bool Detect()
         {
-            if (Keyboard.IsKeyDown(Key) && !IsKeyDownTriggered)
+            if (Keyboard.IsKeyDown(Key))// && !IsKeyDownTriggered)
             {
                 IsKeyDownTriggered = true;
                 OnCall = OnKeyDown;

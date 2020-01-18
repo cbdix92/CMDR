@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    public static class SpatialIndexer
+    internal static class SpatialIndexer
     {
         public static List<GameObject>[,] GridCells;
 

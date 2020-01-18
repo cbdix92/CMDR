@@ -17,3 +17,12 @@ C:\Users\Coleton\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.csproj.CopyComplete
 C:\Users\Coleton\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.exe
 C:\Users\Coleton\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.pdb
 C:\Users\Coleton\Desktop\CMDR\ConsoleApp1\obj\Debug\Test.csproj.CoreCompileInputs.cache
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\bin\Debug\Test.exe.config
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\bin\Debug\Test.exe
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\bin\Debug\Test.pdb
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\bin\Debug\CMDR.dll
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\bin\Debug\CMDR.pdb
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\obj\Debug\Test.csprojAssemblyReference.cache
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\obj\Debug\Test.csproj.CopyComplete
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\obj\Debug\Test.exe
+C:\Users\cbdix\OneDrive\Desktop\CMDR\Test\obj\Debug\Test.pdb

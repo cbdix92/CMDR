@@ -6,7 +6,7 @@ namespace Test
 {
     class Program
     {
-        public static Display _Display;
+        private static Display _display;
         public static Scene TestScene;
 
         public static GameObject GameObject1;
@@ -19,9 +19,8 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            _Display = new Display(1920 / 2, 1080 / 2);
-            SpatialIndexer.Init();
-            Updater.Init();
+            _display = new Display(1920 / 2, 1080 / 2);
+
             TestScene = new Scene();
 
             GameObject1 = TestScene.AddGameObject();
@@ -40,7 +39,7 @@ namespace Test
             KeyListener.AddKeyBind(Key.S, () => { GameObject1.Transform.Yvel = _speed; }, () => { GameObject1.Transform.Yvel = 0; });
             KeyListener.AddKeyBind(Key.D, () => { GameObject1.Transform.Xvel = _speed; }, () => { GameObject1.Transform.Xvel = 0; });
 
-            _Display.Start();
+            _display.Start();
         }
     }
 }

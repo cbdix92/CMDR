@@ -45,10 +45,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponetBase.cs" />
-    <Compile Include="Display.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ComponentBase.cs" />
+    <Compile Include="Display.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="KeyListener.cs" />
@@ -61,6 +59,11 @@
     <Compile Include="UpdateCalls.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Display.resx">
+      <DependentUpon>Display.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

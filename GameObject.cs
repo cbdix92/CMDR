@@ -8,14 +8,14 @@ namespace CMDR
         public Scene Parent;
         public Transform Transform;
         public List<List<GameObject>> CurrentCells = new List<List<GameObject>>();
-        public Dictionary<string, Componet> Componets = new Dictionary<string, Componet>();
+        public Dictionary<ComponentType, Component> Components = new Dictionary<ComponentType, Component>();
         public int Width
         {
             get
             {
                 try
                 {
-                    return Componets["Image"].GetImage().Width;
+                    return Components[ComponentType.Image].GetRenderData().Width;
                 }
                 catch
                 {
@@ -29,7 +29,7 @@ namespace CMDR
             {
                 try
                 {
-                    return Componets["Image"].GetImage().Height;
+                    return Components[ComponentType.Image].GetRenderData().Height;
                 }
                 catch
                 {
@@ -62,18 +62,32 @@ namespace CMDR
             }
         }
 
+        public bool PhysicsFlag { get; set; }
+
         public GameObject(Scene parent, int posX, int posY, int posZ)
         {
             Parent = parent;
             Transform = new Transform(this, posX, posY, posZ);
         }
-        public void AddComponet(Componet Componet)
+        public void AddComponet(Component Componet)
         {
-            Componets.Add(Componet.ID, Componet);
+            Components.Add(Componet.ID, Componet);
         }
         public System.Drawing.Image GetRenderData()
         {
-            return Componets["Image"].GetImage();
+            if (Exist(ComponentType.StateMachine))
+            {
+                return Components[ComponentType.StateMachine].GetRenderData();
+            }
+            else if (Exist(ComponentType.Image))
+            {
+                return Components[ComponentType.Image].GetRenderData();
+            }
+            return null;
+        }
+        private bool Exist(ComponentType component)
+        {
+            return Components.ContainsKey(component);
         }
     }
 }
