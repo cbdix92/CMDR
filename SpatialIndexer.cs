@@ -69,8 +69,8 @@ namespace CMDR
                 GridCells[P1Y, P1X].Add(gameObject);
                 return;
             }
-            for (int Y = P1Y; Y < P2Y; Y++)
-                for (int X = P1X; X < P2X; X++)
+            for (int Y = P1Y; Y <= P2Y; Y++)
+                for (int X = P1X; X <= P2X; X++)
                 {
                     if (!gameObject.CurrentCells.Contains(GridCells[Y, X])) gameObject.CurrentCells.Add(GridCells[Y, X]);
                     if (!GridCells[Y, X].Contains(gameObject)) GridCells[Y, X].Add(gameObject);
