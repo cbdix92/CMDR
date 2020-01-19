@@ -75,15 +75,7 @@ namespace CMDR
         }
         public System.Drawing.Image GetRenderData()
         {
-            if (Exist(ComponentType.StateMachine))
-            {
-                return Components[ComponentType.StateMachine].GetRenderData();
-            }
-            else if (Exist(ComponentType.Image))
-            {
-                return Components[ComponentType.Image].GetRenderData();
-            }
-            return null;
+            return Components[ComponentType.Image].GetRenderData();
         }
         private bool Exist(ComponentType component)
         {

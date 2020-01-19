@@ -7,24 +7,25 @@ namespace CMDR
     {
         public static List<GameObject>[,] GridCells;
 
-        private static int _cellSize;
-
+        private static int _cellSize = 25;
         public static int CellSize
         {
             get => _cellSize;
             set
             {
                 _cellSize = value;
-                //Init(); <----------FIX ME!!!!!!!
+                SetCellSize();
             }
         }
         private static int _gridLX, _gridLY;
 
-        public static SpatialIndexer CSpatialIndexer = new SpatialIndexer();
+        public static SpatialIndexer Spatial_Indexer = new SpatialIndexer();
         private SpatialIndexer()
         {
-            if (_cellSize == 0) _cellSize = 25;
-
+            SetCellSize();
+        }
+        private static void SetCellSize()
+        {
             _gridLX = (int)Math.Ceiling((float)Render.Display.Size.Width / CellSize);
             _gridLY = (int)Math.Ceiling((float)Render.Display.Size.Height / CellSize);
 
@@ -38,9 +39,13 @@ namespace CMDR
                     GridCells[Y, X] = new List<GameObject>();
                 }
             }
+            foreach (GameObject GameObject in SceneManager.ActiveScene.ColliderGameObjects)
+            {
+                CalcPos(GameObject);
+            }
         }
 
-        public static void CalcPos(GameObject gameObject)
+        internal static void CalcPos(GameObject gameObject)
         {
             // Remove "gameObject" from all the current cells then reset "gameObject.CurrentCells"
             foreach (List<GameObject> Cell in gameObject.CurrentCells)
@@ -74,7 +79,7 @@ namespace CMDR
     }
     internal static class SpatialIndexerExtensions
     {
-        public static List<GameObject> GetNearbyColliders(this GameObject gameObject)
+        internal static List<GameObject> GetNearbyColliders(this GameObject gameObject)
         {
             // Returns a List of objects that are likely to be colliding with "gameObject"
             List<GameObject> Colliders = new List<GameObject>();

@@ -14,7 +14,6 @@ namespace CMDR
         {
             ID = id;
         }
-        public virtual bool ColliderAtIndex(int x, int y) { return false; }
         public virtual System.Drawing.Image GetRenderData() { return null; }
     }
     public enum ComponentType

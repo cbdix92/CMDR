@@ -91,7 +91,7 @@ namespace CMDR
         public static void HandlePressedKeys(object caller, EventArgs e)
         {
             // Sort _triggeredKeys KeyBind.WhenKeyDownTriggered values in ascending order
-            long[] SortedArray = new long[_triggeredKeys.Count - 1];
+            long[] SortedArray = new long[_triggeredKeys.Count];
             for (int i = 0; i < _triggeredKeys.Count-1; i++)
             {
                 SortedArray[i] = _triggeredKeys[i].WhenKeyDownTriggered;

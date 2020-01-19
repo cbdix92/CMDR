@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    internal partial class Render
+    internal static partial class Render
     {
         internal static Form Display;
         internal static BufferedGraphics Buffer;
@@ -13,14 +13,9 @@ namespace CMDR
 
         public static int ZDepth { get; set; }
 
-        public static Render CRender = new Render();
-        private Render()
-        {
-
-        }
         internal static void ClearScreen()
         {
-            Buffer.Graphics.Clear(System.Drawing.Color.White);
+            Buffer.Graphics.Clear(System.Drawing.Color.Black);
         }
         internal static void ScreenBuffer()
         {

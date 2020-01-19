@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    internal partial class Render
+    internal static partial class Render
     {
         public static void Update(object caller, EventArgs e)
         {
@@ -14,7 +14,7 @@ namespace CMDR
         }
     }
 
-    internal partial class Physics
+    internal static partial class Physics
     {
         public static void Update(object caller, EventArgs e)
         {

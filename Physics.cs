@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    internal partial class Physics
+    internal static partial class Physics
     {
-        public static Physics CPhysics = new Physics();
-        private Physics()
-        {
-
-        }
         internal static void CheckCollision(GameObject gameObject)
         {
             // BroadPhase

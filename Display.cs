@@ -6,7 +6,6 @@ namespace CMDR
 {
     public class Display : Form
     {
-        //public static Display CDisplay = new Display(1280/2,1080/2);
         public Display(int sizeX, int sizeY)
         {
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
@@ -19,6 +18,7 @@ namespace CMDR
         public void Start()
         {
             Render.SetDisplay(this);
+            Updater.Init();
             Application.EnableVisualStyles();
             Application.Run(this);
         }
