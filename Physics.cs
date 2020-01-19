@@ -33,10 +33,7 @@ namespace CMDR
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
     internal static class PhysicsExtensions

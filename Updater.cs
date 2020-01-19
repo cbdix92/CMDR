@@ -30,22 +30,17 @@ namespace CMDR
     }
     public static class Updater
     {
-        public static Update InputUpdates;
         public static Update RenderUpdates;
         public static Update PhysicsUpdates;
 
         public static void Init()
         {
-            InputUpdates = new Update(10);
             RenderUpdates = new Update(30);
             PhysicsUpdates = new Update(10);
 
             RenderUpdates.Handler += Render.Update;
             PhysicsUpdates.Handler += Physics.Update;
-            PhysicsUpdates.Handler += KeyListener.Listen;
-            InputUpdates.Handler += KeyListener.HandlePressedKeys;
-
-
+            PhysicsUpdates.Handler += KeyListener.Update;
         }
     }
 }

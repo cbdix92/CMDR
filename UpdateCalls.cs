@@ -34,4 +34,16 @@ namespace CMDR
             }
         }
     }
+
+    public static partial class KeyListener
+    {
+        internal static void Update(object caller, EventArgs e)
+        {
+            foreach(KeyBind KeyBind in KeyBinds)
+            {
+                KeyBind.Detect();
+            }
+        }
+
+    }
 }
