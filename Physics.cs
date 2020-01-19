@@ -5,12 +5,12 @@ namespace CMDR
 {
     internal partial class Physics
     {
-        public static Physics Physics = new Physics();
+        public static Physics CPhysics = new Physics();
         private Physics()
         {
 
         }
-        internal static void CheckCollision(this GameObject gameObject)
+        internal static void CheckCollision(GameObject gameObject)
         {
             // BroadPhase
 
@@ -43,6 +43,9 @@ namespace CMDR
                 return false;
             }
         }
+    }
+    internal static class PhysicsExtensions
+    {
         internal static bool HasZeroVelocity(this GameObject gameObject)
         {
             if (gameObject.Transform.Xvel == 0 && gameObject.Transform.Yvel == 0) return true;

@@ -34,7 +34,7 @@ namespace CMDR
         public static Update RenderUpdates;
         public static Update PhysicsUpdates;
 
-        public static Updater Updater = new Updater();
+        public static Updater CUpdater = new Updater();
         private Updater()
         {
             InputUpdates = new Update(10);

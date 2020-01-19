@@ -13,18 +13,16 @@ namespace CMDR
 
         public static int ZDepth { get; set; }
 
-        public static Render Render = new Render(Display);
-        private Render(Display display)
+        public static Render CRender = new Render();
+        private Render()
         {
-            Display = display;
-            Buffer_CONTEXT = BufferedGraphicsManager.Current;
-            Buffer = Buffer_CONTEXT.Allocate(Display.CreateGraphics(), new Rectangle(0, 0, Display.Width, Display.Height));
+
         }
-        public static void ClearScreen()
+        internal static void ClearScreen()
         {
             Buffer.Graphics.Clear(System.Drawing.Color.White);
         }
-        public static void ScreenBuffer()
+        internal static void ScreenBuffer()
         {
             Scene Scene = SceneManager.ActiveScene;
             foreach (GameObject GameObject in Scene.GameObjects)
@@ -32,7 +30,13 @@ namespace CMDR
                 Buffer.Graphics.DrawImage(GameObject.GetRenderData(), GameObject.Transform.X, GameObject.Transform.Y);
             }
         }
-        public static void Draw()
+        internal static void SetDisplay(Display display)
+        {
+            Display = display;
+            Buffer_CONTEXT = BufferedGraphicsManager.Current;
+            Buffer = Buffer_CONTEXT.Allocate(Display.CreateGraphics(), new Rectangle(0, 0, Display.Width, Display.Height));
+        }
+        internal static void Draw()
         {
             Buffer.Render();
         }

@@ -10,4 +10,4 @@ C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.dll
 C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.pdb
 C:\Users\Coleton\Desktop\CMDR\obj\Debug\CMDR.csproj.CoreCompileInputs.cache
 C:\Users\cbdix\OneDrive\Desktop\CMDR\obj\Debug\CMDR.csproj.GenerateResource.cache
-C:\Users\cbdix\OneDrive\Desktop\CMDR\obj\Debug\CMDR.TooManyDisplaysException.resources
+C:\Users\cbdix\OneDrive\Desktop\CMDR\obj\Debug\CMDR.Display.resources

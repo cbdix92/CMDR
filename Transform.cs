@@ -33,14 +33,14 @@ namespace CMDR
         public int Z
         {
             get => _z;
-            set
-            {
-                if (value > Render.ZDepth)
-                {
-                    _z = Render.ZDepth;
-                }
-                else _z = Math.Max(0, value);
-            }
+            set => _z = value;
+            //{
+                //if (value > Render.ZDepth)
+                //{
+                    //_z = Render.ZDepth;
+                //}
+                //else _z = Math.Max(0, value);
+            //}
         }
 
         public int Xvel

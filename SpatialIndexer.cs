@@ -15,12 +15,12 @@ namespace CMDR
             set
             {
                 _cellSize = value;
-                Init();
+                //Init(); <----------FIX ME!!!!!!!
             }
         }
         private static int _gridLX, _gridLY;
 
-        public static SpatialIndexer SpatialIndexer = new SpatialIndexer();
+        public static SpatialIndexer CSpatialIndexer = new SpatialIndexer();
         private SpatialIndexer()
         {
             if (_cellSize == 0) _cellSize = 25;
@@ -71,6 +71,9 @@ namespace CMDR
                     if (!GridCells[Y, X].Contains(gameObject)) GridCells[Y, X].Add(gameObject);
                 }
         }
+    }
+    internal static class SpatialIndexerExtensions
+    {
         public static List<GameObject> GetNearbyColliders(this GameObject gameObject)
         {
             // Returns a List of objects that are likely to be colliding with "gameObject"
@@ -91,6 +94,5 @@ namespace CMDR
             }
             return Colliders;
         }
-
     }
 }

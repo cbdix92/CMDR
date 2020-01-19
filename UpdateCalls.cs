@@ -28,7 +28,7 @@ namespace CMDR
             {
                 GameObject.Move();
 
-                GameObject.CheckCollision();
+                CheckCollision(GameObject);
 
                 if (GameObject.HasZeroVelocity()) Scene.ActiveGameObjects.Remove(GameObject);
             }

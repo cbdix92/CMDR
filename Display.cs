@@ -6,8 +6,8 @@ namespace CMDR
 {
     public class Display : Form
     {
-        public static Display Display = new Display(1280/2,1080/2);
-        private Display(int sizeX, int sizeY)
+        //public static Display CDisplay = new Display(1280/2,1080/2);
+        public Display(int sizeX, int sizeY)
         {
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -16,8 +16,9 @@ namespace CMDR
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
         }
-        static public void Start()
+        public void Start()
         {
+            Render.SetDisplay(this);
             Application.EnableVisualStyles();
             Application.Run(this);
         }

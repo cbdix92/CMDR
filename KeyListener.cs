@@ -13,12 +13,21 @@ namespace CMDR
         public bool IsKeyDownTriggered { get; set; }
 
         public long WhenKeyDownTriggered;
+        private DateTime DateTime;
 
         public KeyBind(Key key, Action onKeyDown, Action onKeyUp)
         {
             Key = key;
             OnKeyDown = onKeyDown;
-            OnKeyUp = onKeyUp;
+            if (onKeyUp != null)
+            {
+                OnKeyUp = onKeyUp;
+            }
+            else
+            {
+                onKeyUp = KeyUpReset;
+            }
+            DateTime = new DateTime();
         }
         public bool Detect()
         {
@@ -27,12 +36,12 @@ namespace CMDR
                 if (!IsKeyDownTriggered)
                 {
                     WhenKeyDownTriggered = DateTime.Ticks;
+                    IsKeyDownTriggered = true;
                 }
-                IsKeyDownTriggered = true;
                 OnCall = OnKeyDown;
                 return true;
             }
-            else if (OnKeyUp != null && IsKeyDownTriggered && Keyboard.IsKeyUp(Key))
+            else if (Keyboard.IsKeyUp(Key) && IsKeyDownTriggered)
             {
                 IsKeyDownTriggered = false;
                 OnCall = OnKeyUp;
@@ -45,6 +54,11 @@ namespace CMDR
             if (OnKeyUp == null) IsKeyDownTriggered = false;
             OnCall = null;
         }
+        private void KeyUpReset()
+        {
+            // Only used if the "onKeyUp" is never passed to the constructor
+            IsKeyDownTriggered = false;
+        }
     }
 
     public class KeyListener
@@ -52,7 +66,7 @@ namespace CMDR
         internal static List<KeyBind> KeyBinds = new List<KeyBind>();
         private static List<KeyBind> _triggeredKeys = new List<KeyBind>();
 
-        public KeyListener KeyListener = new KeyListener();
+        public KeyListener CKeyListener = new KeyListener();
         private KeyListener()
         {
 
@@ -76,6 +90,14 @@ namespace CMDR
         }
         public static void HandlePressedKeys(object caller, EventArgs e)
         {
+            // Sort _triggeredKeys KeyBind.WhenKeyDownTriggered values in ascending order
+            long[] SortedArray = new long[_triggeredKeys.Count - 1];
+            for (int i = 0; i < _triggeredKeys.Count-1; i++)
+            {
+                SortedArray[i] = _triggeredKeys[i].WhenKeyDownTriggered;
+            }
+            Array.Sort(SortedArray);
+
             foreach (KeyBind KeyBind in _triggeredKeys)
             {
                 if (KeyBind.OnCall != null)
