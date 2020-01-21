@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace CMDR
@@ -123,6 +124,21 @@ namespace CMDR
     }
     internal static class SpatialIndexerExtensions
     {
+        internal static List<GameObject> GetNearbyColliders(this GameObject gameObject)
+        {
+            CalcGridPos(gameObject);
+            List<GameObject> Trimmed_Colliders = new List<GameObject>();
+            List<GameObject> All_Colliders = new List<GameObject>(gameObject.CenterCell);
+            All_Colliders.AddRange( gameObject.OverlappedCells.Where( x => x.Cache).Select(y => y.FirstOrDefault()).ToList());
+            All_Colliders.AddRange( gameObject.OverlappedCells.GroupBy( x => x.Cache).Select(y => y.FirstOrDefault()).ToList());
 
+            Trimmed_Colliders = All_Colliders.GroupBy(x => x.Hash).Select(Y => Y.FirstOrDefault()).ToList();
+
+            for (int i = 0; i < gameObject.OverlappedCells.Count; i++)
+            {
+                Colliders.AddRange(gameObject.OverlappedCells[i].Cache);
+            }
+            var q = Colliders.GroupBy(x => x.Hash).Select(y => y.FirstOrDefault()).ToList();
+        }
     }
 }

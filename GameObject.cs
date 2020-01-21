@@ -10,6 +10,7 @@ namespace CMDR
         internal List<Cell> OverlappedCells;
         internal List<GameObject> CenterCell;
         public Dictionary<ComponentType, Component> Components = new Dictionary<ComponentType, Component>();
+        public int Hash { get => this.GetHashCode(); }
         public int Width
         {
             get
