@@ -18,7 +18,6 @@ namespace CMDR
             set
             {
                 _x = value;
-                if (Parent.Collider) SpatialIndexer.CalcPos(Parent);
             }
         }
         public int Y
@@ -27,7 +26,6 @@ namespace CMDR
             set
             {
                 _y = value;
-                if (Parent.Collider) SpatialIndexer.CalcPos(Parent);
             }
         }
         public int Z

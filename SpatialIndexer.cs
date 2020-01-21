@@ -3,11 +3,29 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
+    internal class Cell
+    {
+        public (int Y, int X) GridKey;
+        public List<GameObject> Cache = new List<GameObject>();
+        public Cell(int y,int x)
+        {
+            GridKey = (y, x);
+        }
+        public void Add(GameObject gameObject)
+        {
+            Cache.Add(gameObject);
+        }
+        public void Remove(GameObject gameObject)
+        {
+            Cache.Remove(gameObject);
+        }
+    }
     internal class SpatialIndexer
     {
-        public static List<GameObject>[,] GridCells;
+        //public static List<GameObject>[,] GridCells;
+        public static Dictionary<(int, int), Cell> GridCells;
 
-        private static int _cellSize = 25;
+        private static int _cellSize;
         public static int CellSize
         {
             get => _cellSize;
@@ -17,42 +35,27 @@ namespace CMDR
                 SetCellSize();
             }
         }
-        private static int _gridLX, _gridLY;
-
-        public static SpatialIndexer Spatial_Indexer = new SpatialIndexer();
+        private static SpatialIndexer _instance = new SpatialIndexer();
         private SpatialIndexer()
         {
-            SetCellSize();
+            GridCells = new Dictionary<(int, int), Cell>();
         }
         private static void SetCellSize()
         {
-            _gridLX = (int)Math.Ceiling((float)Render.Display.Size.Width / CellSize);
-            _gridLY = (int)Math.Ceiling((float)Render.Display.Size.Height / CellSize);
-
-            GridCells = new List<GameObject>[_gridLY, _gridLX];
-
-            // Instantiate the Lists inside of "GridCells"
-            foreach (int Y in _gridLY.GetArrayRange())
-            {
-                foreach (int X in _gridLX.GetArrayRange())
-                {
-                    GridCells[Y, X] = new List<GameObject>();
-                }
-            }
             foreach (GameObject GameObject in SceneManager.ActiveScene.ColliderGameObjects)
             {
-                CalcPos(GameObject);
+                CalcGridPos(GameObject);
             }
         }
 
-        internal static void CalcPos(GameObject gameObject)
+        internal static void CalcGridPos(GameObject gameObject)
         {
             // Remove "gameObject" from all the current cells then reset "gameObject.CurrentCells"
-            foreach (List<GameObject> Cell in gameObject.CurrentCells)
+            foreach (Cell Cell in gameObject.OverlappedCells)
             {
                 Cell.Remove(gameObject);
             }
-            gameObject.CurrentCells.Clear();
+            gameObject.OverlappedCells.Clear();
 
             // Top left corner of "gameObject" converted to grid cordinates
             int P1X = (int)Math.Floor((double)gameObject.Transform.X / CellSize);
@@ -62,42 +65,64 @@ namespace CMDR
             int P2X = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width) / CellSize);
             int P2Y = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height) / CellSize);
 
+
             // "gameObject" is occupying one gridcell do not iterate.
             if (P1X == P2X && P1Y == P2Y)
             {
-                gameObject.CurrentCells.Add(GridCells[P1Y, P1X]);
-                GridCells[P1Y, P1X].Add(gameObject);
+                if (GridCells[(P1Y, P1X)] == null)
+                {
+                    GridCells[(P1X, P1Y)] = new Cell(P1Y, P1X);
+                }
+                gameObject.OverlappedCells = null;
+                GridCells[(P1Y, P1X)].Add(gameObject);
+                gameObject.CenterCell = GridCells[(P1Y, P1X)].Cache;
                 return;
             }
             for (int Y = P1Y; Y <= P2Y; Y++)
                 for (int X = P1X; X <= P2X; X++)
                 {
-                    if (!gameObject.CurrentCells.Contains(GridCells[Y, X])) gameObject.CurrentCells.Add(GridCells[Y, X]);
-                    if (!GridCells[Y, X].Contains(gameObject)) GridCells[Y, X].Add(gameObject);
-                }
-        }
-    }
-    internal static class SpatialIndexerExtensions
-    {
-        internal static List<GameObject> GetNearbyColliders(this GameObject gameObject)
-        {
-            // Returns a List of objects that are likely to be colliding with "gameObject"
-            List<GameObject> Colliders = new List<GameObject>();
-            foreach (List<GameObject> Cell in gameObject.CurrentCells)
-            {
-                foreach (GameObject Collider in Cell)
-                {
-                    if (Colliders.Contains(Collider))
+                    if (!GridCells.ContainsKey((Y, X)))
                     {
-                        continue;
+                        GridCells[(Y, X)] = new Cell(Y, X);
                     }
-                    else
+                    if (!gameObject.OverlappedCells.Contains(GridCells[(Y, X)])) gameObject.OverlappedCells.Add(GridCells[(Y, X)]);
+                    if (!GridCells[(Y, X)].Cache.Contains(gameObject)) GridCells[(Y, X)].Cache.Add(gameObject);
+                }
+
+            int CenterX = (int)Math.Floor((double)((gameObject.Transform.X + gameObject.Width) / 2)/ CellSize);
+            int CenterY = (int)Math.Floor((double)((gameObject.Transform.Y + gameObject.Height) / 2) / CellSize);
+            if (!GridCells.ContainsKey((CenterY, CenterX)))
+            {
+                GridCells.Add((CenterY, CenterX), new Cell(CenterY, CenterX));
+            }
+            gameObject.CenterCell = GridCells[(CenterY, CenterX)].Cache;
+        }
+        internal static List<GameObject> GetNearbyColliders(GameObject gameObject)
+        {
+            // Update "gameObjet"s grid position
+            CalcGridPos(gameObject);
+
+            // Get all the colliders in "GameObjects" center cell
+            List<GameObject> Colliders = new List<GameObject>(gameObject.CenterCell);
+
+            // Get all the colliders in "gameObject"s overlapped cells
+            foreach (Cell Cell in gameObject.OverlappedCells)
+            {
+                foreach (GameObject Collider in Cell.Cache)
+                {
+                    // Mitigate duplicates
+                    if (!Colliders.Contains(Collider))
                     {
                         Colliders.Add(Collider);
                     }
                 }
             }
+            Colliders.Remove(gameObject);
             return Colliders;
         }
+    }
+    internal static class SpatialIndexerExtensions
+    {
+
     }
 }

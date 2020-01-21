@@ -19,7 +19,7 @@ namespace CMDR
         }
         public void Detect()
         {
-            if (KeyBoard.IsKeyDown(Key))
+            if (Keyboard.IsKeyDown(Key))
             {
                 if (!IsKeyDownTriggered)
                 {
@@ -27,7 +27,7 @@ namespace CMDR
                     IsKeyDownTriggered = true;
                 }
             }
-            else if (KeyBoard.IsKeyUp(Key))
+            else if (Keyboard.IsKeyUp(Key))
             {
                 if (IsKeyDownTriggered)
                 {
