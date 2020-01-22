@@ -43,6 +43,7 @@ namespace CMDR
         }
         private static void SetCellSize()
         {
+            SceneManager.ActiveScene.ColliderGameObjects.ForEach(x => CalcGridPos(x));
             foreach (GameObject GameObject in SceneManager.ActiveScene.ColliderGameObjects)
             {
                 CalcGridPos(GameObject);
@@ -64,59 +65,34 @@ namespace CMDR
             int P2Y = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height) / CellSize);
 
 
-            // "gameObject" is occupying one gridcell do not iterate.
+            // "gameObject" is occupying one grid cell. Don't iterate.
             if (P1X == P2X && P1Y == P2Y)
             {
-                if (GridCells[(P1Y, P1X)] == null)
+                // Create a new cell if it doesn't exist here
+                if (!GridCells.ContainsKey(P1Y, P1X))
                 {
                     GridCells[(P1X, P1Y)] = new Cell(P1Y, P1X);
                 }
-                gameObject.OverlappedCells = null;
                 GridCells[(P1Y, P1X)].Add(gameObject);
                 gameObject.CenterCell = GridCells[(P1Y, P1X)].Cache;
                 return;
             }
+            // "gameObject" is occupying multiple grid cells. Do iterate.
             for (int Y = P1Y; Y <= P2Y; Y++)
                 for (int X = P1X; X <= P2X; X++)
                 {
+                    // Create a new cell if it doesn't exist here
                     if (!GridCells.ContainsKey((Y, X)))
                     {
                         GridCells[(Y, X)] = new Cell(Y, X);
                     }
-                    if (!gameObject.OverlappedCells.Contains(GridCells[(Y, X)])) gameObject.OverlappedCells.Add(GridCells[(Y, X)]);
-                    if (!GridCells[(Y, X)].Cache.Contains(gameObject)) GridCells[(Y, X)].Cache.Add(gameObject);
+                    GridCells[(Y,X)].Cache.Add(gameObject);
+                    gameObject.Overlapped.Add(GridCells[(Y, X)]);
                 }
-
-            int CenterX = (int)Math.Floor((double)((gameObject.Transform.X + gameObject.Width) / 2)/ CellSize);
-            int CenterY = (int)Math.Floor((double)((gameObject.Transform.Y + gameObject.Height) / 2) / CellSize);
-            if (!GridCells.ContainsKey((CenterY, CenterX)))
-            {
-                GridCells.Add((CenterY, CenterX), new Cell(CenterY, CenterX));
-            }
+ 
+            int CenterX = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width / 2) / CellSize);
+            int CenterY = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height / 2) / CellSize);
             gameObject.CenterCell = GridCells[(CenterY, CenterX)].Cache;
-        }
-        internal static List<GameObject> GetNearbyColliders(GameObject gameObject)
-        {
-            // Update "gameObjet"s grid position
-            CalcGridPos(gameObject);
-
-            // Get all the colliders in "GameObjects" center cell
-            List<GameObject> Colliders = new List<GameObject>(gameObject.CenterCell);
-
-            // Get all the colliders in "gameObject"s overlapped cells
-            foreach (Cell Cell in gameObject.OverlappedCells)
-            {
-                foreach (GameObject Collider in Cell.Cache)
-                {
-                    // Mitigate duplicates
-                    if (!Colliders.Contains(Collider))
-                    {
-                        Colliders.Add(Collider);
-                    }
-                }
-            }
-            Colliders.Remove(gameObject);
-            return Colliders;
         }
     }
     internal static class SpatialIndexerExtensions
