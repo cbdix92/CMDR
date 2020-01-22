@@ -10,7 +10,7 @@ namespace CMDR
             // BroadPhase
 
             // Get possible Colliders with "gameObject"
-            List<GameObject> Colliders = SpatialIndexer.GetNearbyColliders(gameObject);
+            List<GameObject> Colliders = gameObject.GetNearbyColliders();
 
             foreach (GameObject Collider in Colliders)
             {

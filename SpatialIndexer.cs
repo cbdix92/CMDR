@@ -52,10 +52,7 @@ namespace CMDR
         internal static void CalcGridPos(GameObject gameObject)
         {
             // Remove "gameObject" from all the current cells then reset "gameObject.CurrentCells"
-            foreach (Cell Cell in gameObject.OverlappedCells)
-            {
-                Cell.Remove(gameObject);
-            }
+            gameObject.OverlappedCells.ForEach(x => x.Remove(gameObject));
             gameObject.OverlappedCells.Clear();
 
             // Top left corner of "gameObject" converted to grid cordinates
@@ -126,19 +123,17 @@ namespace CMDR
     {
         internal static List<GameObject> GetNearbyColliders(this GameObject gameObject)
         {
-            CalcGridPos(gameObject);
-            List<GameObject> Trimmed_Colliders = new List<GameObject>();
-            List<GameObject> All_Colliders = new List<GameObject>(gameObject.CenterCell);
-            All_Colliders.AddRange( gameObject.OverlappedCells.Where( x => x.Cache).Select(y => y.FirstOrDefault()).ToList());
-            All_Colliders.AddRange( gameObject.OverlappedCells.GroupBy( x => x.Cache).Select(y => y.FirstOrDefault()).ToList());
+            SpatialIndexer.CalcGridPos(gameObject);
 
-            Trimmed_Colliders = All_Colliders.GroupBy(x => x.Hash).Select(Y => Y.FirstOrDefault()).ToList();
-
+            List<GameObject> Colliders = new List<GameObject>(gameObject.CenterCell);
             for (int i = 0; i < gameObject.OverlappedCells.Count; i++)
             {
                 Colliders.AddRange(gameObject.OverlappedCells[i].Cache);
             }
-            var q = Colliders.GroupBy(x => x.Hash).Select(y => y.FirstOrDefault()).ToList();
+
+            List<GameObject> TrimmedList = Colliders.GroupBy(x => x.Hash).Select(y => y.FirstOrDefault()).ToList();
+            TrimmedList.Remove(gameObject);
+            return TrimmedList;
         }
     }
 }

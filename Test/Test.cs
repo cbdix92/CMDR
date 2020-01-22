@@ -1,6 +1,7 @@
 ﻿using CMDR;
 using System;
 using System.Windows.Input;
+using System.IO;
 
 namespace Test
 {
@@ -16,7 +17,7 @@ namespace Test
 
         public static CMDR.Image TestImage;
         private static CMDR.Image _projectileImage;
-        
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -29,6 +30,7 @@ namespace Test
 
             TestImage = new CMDR.Image("Test.bmp");
             _projectileImage = new CMDR.Image("Projectile.png");
+
 
             GameObject1.AddComponet(TestImage);
             GameObject2.AddComponet(TestImage);
@@ -47,10 +49,11 @@ namespace Test
 
         public class Projectile : GameObject
         {
-            public Projectile(Scene scene, GameObject parent, Component image) : base (scene, parent.Transform.X, parent.Transform.Y, 0)
+            public Projectile(Scene scene, GameObject parent, Component image) : base (scene, parent.Transform.X+parent.Width+1, parent.Transform.Y, parent.Transform.Z)
             {
                 base.Transform.Xvel += 10;
                 base.AddComponet(image);
+
             }
         }
     }
