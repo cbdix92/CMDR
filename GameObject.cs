@@ -73,7 +73,7 @@ namespace CMDR
 
         public bool PhysicsFlag { get; set; }
 
-        public GameObject(Scene parent, int posX, int posY, int posZ)
+        public GameObject(Scene parent, float posX, float posY, int posZ)
         {
             Parent = parent;
             Transform = new Transform(this, posX, posY, posZ);

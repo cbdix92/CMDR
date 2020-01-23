@@ -13,7 +13,7 @@ namespace Test
         public static GameObject GameObject1;
         public static GameObject GameObject2;
 
-        public static int _speed = 2;
+        public static float _speed = 2.5F;
 
         public static CMDR.Image TestImage;
         private static CMDR.Image _projectileImage;
@@ -49,10 +49,11 @@ namespace Test
 
         public class Projectile : GameObject
         {
-            public Projectile(Scene scene, GameObject parent, Component image) : base (scene, parent.Transform.X+parent.Width+1, parent.Transform.Y, parent.Transform.Z)
+            public Projectile(Scene scene, GameObject parent, Component image) : base(scene, parent.Transform.X+parent.Width+1, parent.Transform.Y, parent.Transform.Z)
             {
-                base.Transform.Xvel += 10;
+                base.Transform.Xvel += 2.5F;
                 base.AddComponet(image);
+                base.Collider = true;
 
             }
         }

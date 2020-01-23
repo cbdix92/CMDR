@@ -5,14 +5,14 @@ namespace CMDR
 {
     public class Transform
     {
-        private int _x;
-        private int _y;
+        private float _x;
+        private float _y;
         private int _z;
-        private int _xvel;
-        private int _yvel;
+        private float _xvel;
+        private float _yvel;
         public GameObject Parent;
 
-        public int X
+        public float X
         {
             get => _x;
             set
@@ -20,7 +20,7 @@ namespace CMDR
                 _x = value;
             }
         }
-        public int Y
+        public float Y
         {
             get => _y;
             set
@@ -41,7 +41,7 @@ namespace CMDR
             }
         }
 
-        public int Xvel
+        public float Xvel
         {
             get => _xvel;
             set
@@ -53,7 +53,7 @@ namespace CMDR
                 _xvel = value;
             }
         }
-        public int Yvel
+        public float Yvel
         {
             get => _yvel;
             set
@@ -65,7 +65,7 @@ namespace CMDR
                 _yvel = value;
             }
         }
-        public Transform(GameObject parent, int x = 0, int y = 0, int z = 0)
+        public Transform(GameObject parent, float x = 0, float y = 0, int z = 0)
         {
             Parent = parent;
             X = x;

@@ -44,10 +44,6 @@ namespace CMDR
         private static void SetCellSize()
         {
             SceneManager.ActiveScene.ColliderGameObjects.ForEach(x => CalcGridPos(x));
-            foreach (GameObject GameObject in SceneManager.ActiveScene.ColliderGameObjects)
-            {
-                CalcGridPos(GameObject);
-            }
         }
 
         internal static void CalcGridPos(GameObject gameObject)
@@ -69,7 +65,7 @@ namespace CMDR
             if (P1X == P2X && P1Y == P2Y)
             {
                 // Create a new cell if it doesn't exist here
-                if (!GridCells.ContainsKey(P1Y, P1X))
+                if (!GridCells.ContainsKey((P1Y, P1X)))
                 {
                     GridCells[(P1X, P1Y)] = new Cell(P1Y, P1X);
                 }
@@ -87,7 +83,7 @@ namespace CMDR
                         GridCells[(Y, X)] = new Cell(Y, X);
                     }
                     GridCells[(Y,X)].Cache.Add(gameObject);
-                    gameObject.Overlapped.Add(GridCells[(Y, X)]);
+                    gameObject.OverlappedCells.Add(GridCells[(Y, X)]);
                 }
  
             int CenterX = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width / 2) / CellSize);
