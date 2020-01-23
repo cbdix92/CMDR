@@ -58,7 +58,11 @@ namespace CMDR
             set
             {
                 bool Validate = Parent.ColliderGameObjects.Contains(this);
-                if (value && !Validate) Parent.ColliderGameObjects.Add(this);
+                if (value && !Validate)
+                {
+                    Parent.ColliderGameObjects.Add(this);
+                    this.AddComponet(new PhysicsConstraints(this));
+                }
                 else if (!value && Validate) Parent.ColliderGameObjects.Remove(this);
                 _collider = value;
 
@@ -70,8 +74,6 @@ namespace CMDR
                 SpatialIndexer.CalcGridPos(this);
             }
         }
-
-        public bool PhysicsFlag { get; set; }
 
         public GameObject(Scene parent, float posX, float posY, int posZ)
         {

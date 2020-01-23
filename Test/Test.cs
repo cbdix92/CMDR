@@ -52,9 +52,11 @@ namespace Test
         {
             public Projectile(Scene scene, GameObject parent, Component image) : base(scene, parent.Transform.X+parent.Width+1, parent.Transform.Y, parent.Transform.Z)
             {
-                base.Transform.Xvel += 2.5F;
+                base.Transform.Xvel += 0.5F;
                 base.AddComponet(image);
                 base.Collider = true;
+                PhysicsConstraints p = (PhysicsConstraints)base.Components[ComponentType.PhysicsConstraints];
+                p.OnCollision += () => { base.Transform.Xvel = 0; };
 
             }
         }

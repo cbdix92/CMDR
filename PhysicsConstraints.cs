@@ -8,9 +8,12 @@ namespace CMDR
 {
     public class PhysicsConstraints : Component
     {
-        public PhysicsConstraints() : base (ComponentType.PhysicsConstraints)
+        public Action OnCollision;
+        public bool Static { get; set; }
+        public bool Collider { get; set; }
+        public PhysicsConstraints(GameObject parent) : base (ComponentType.PhysicsConstraints)
         {
-
+            Parent = parent;
         }
     }
 }
