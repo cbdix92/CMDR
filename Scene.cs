@@ -30,8 +30,7 @@ namespace CMDR
         public GameObject AddGameObject() { return AddGameObject(0, 0, 0); }
         public GameObject AddGameObject(int posX, int posY, int posZ)
         {
-            GameObjects.Add(new GameObject(this, posX, posY, posZ));
-            return GameObjects[GameObjects.Count - 1];
+            return AddGameObject(new GameObject(this, posX, posY, posZ));
         }
         public GameObject AddGameObject(GameObject gameObject)
         {

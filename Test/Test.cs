@@ -44,6 +44,7 @@ namespace Test
             KeyListener.AddKeyBind(Key.D, () => { GameObject1.Transform.Xvel += _speed; }, () => { GameObject1.Transform.Xvel -= _speed; });
             KeyListener.AddKeyBind(Key.Space, () => { TestScene.AddGameObject(new Projectile(TestScene,GameObject1, _projectileImage)); });
 
+
             _display.Start();
         }
 

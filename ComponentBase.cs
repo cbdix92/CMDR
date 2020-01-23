@@ -20,6 +20,7 @@ namespace CMDR
     {
         Image,
         Animation,
+        PhysicsConstraints,
         StateMachine
     }
 }
