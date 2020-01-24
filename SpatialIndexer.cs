@@ -49,7 +49,8 @@ namespace CMDR
         internal static void CalcGridPos(GameObject gameObject)
         {
             // Remove "gameObject" from all the current cells then reset "gameObject.CurrentCells"
-            gameObject.OverlappedCells.ForEach(x => x.Remove(gameObject));
+            List<Cell> oldCells = new List<Cell>(gameObject.OverlappedCells);
+            gameObject.OverlappedCells.ForEach(x => x.Cache.Remove(gameObject));
             gameObject.OverlappedCells.Clear();
 
             // Top left corner of "gameObject" converted to grid cordinates
@@ -60,28 +61,13 @@ namespace CMDR
             int P2X = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width) / CellSize);
             int P2Y = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height) / CellSize);
 
-
-            // "gameObject" is occupying one grid cell. Don't iterate.
-            if (P1X == P2X && P1Y == P2Y)
-            {
-                // Create a new cell if it doesn't exist here
-                if (!GridCells.ContainsKey((P1Y, P1X)))
-                {
-                    GridCells[(P1X, P1Y)] = new Cell(P1Y, P1X);
-                }
-                GridCells[(P1Y, P1X)].Add(gameObject);
-                gameObject.CenterCell = GridCells[(P1Y, P1X)].Cache;
-                return;
-            }
-            // "gameObject" is occupying multiple grid cells. Do iterate.
+            // Place "gameObject" in all of it's occupied "GridCells"
             for (int Y = P1Y; Y <= P2Y; Y++)
                 for (int X = P1X; X <= P2X; X++)
                 {
-                    // Create a new cell if it doesn't exist here
-                    if (!GridCells.ContainsKey((Y, X)))
-                    {
-                        GridCells[(Y, X)] = new Cell(Y, X);
-                    }
+                    // Create a new cell if it doesn't exist
+                    CheckKey((Y, X));
+
                     GridCells[(Y,X)].Cache.Add(gameObject);
                     gameObject.OverlappedCells.Add(GridCells[(Y, X)]);
                 }
@@ -89,6 +75,22 @@ namespace CMDR
             int CenterX = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width / 2) / CellSize);
             int CenterY = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height / 2) / CellSize);
             gameObject.CenterCell = GridCells[(CenterY, CenterX)].Cache;
+            
+            // Remove Empty Cells
+            foreach (Cell Cell in oldCells)
+            {
+                if (Cell.Cache.Count == 0)
+                {
+                    GridCells.Remove(Cell.GridKey);
+                }
+            }
+        }
+        private static void CheckKey((int, int) key)
+        {
+            if (!GridCells.ContainsKey(key))
+            {
+                GridCells[key] = new Cell(key.Item1, key.Item2);
+            }
         }
     }
     internal static class SpatialIndexerExtensions

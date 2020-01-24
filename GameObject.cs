@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    public class GameObject
+    public class GameObject : IDisposable
     {
         public Scene Parent;
         public Transform Transform;
@@ -40,9 +40,9 @@ namespace CMDR
             }
         }
         private bool _active;
-        public bool Active 
-        { 
-            get => _active; 
+        public bool Active
+        {
+            get => _active;
             set
             {
                 bool Validate = Parent.ActiveGameObjects.Contains(this);
@@ -52,18 +52,26 @@ namespace CMDR
             }
         }
         private bool _collider;
-        public bool Collider 
+        public bool Collider
         {
             get => _collider;
             set
             {
                 bool Validate = Parent.ColliderGameObjects.Contains(this);
+
+                // True
                 if (value && !Validate)
                 {
                     Parent.ColliderGameObjects.Add(this);
                     this.AddComponet(new PhysicsConstraints(this));
                 }
-                else if (!value && Validate) Parent.ColliderGameObjects.Remove(this);
+                // False
+                else if (!value && Validate)
+                {
+                    Parent.ColliderGameObjects.Remove(this);
+                    this.OverlappedCells.ForEach(x => x.Remove(this));
+                }
+                    
                 _collider = value;
 
                 // Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
@@ -74,6 +82,7 @@ namespace CMDR
                 SpatialIndexer.CalcGridPos(this);
             }
         }
+        public bool Disposed { get; private set; }
 
         public GameObject(Scene parent, float posX, float posY, int posZ)
         {
@@ -91,9 +100,16 @@ namespace CMDR
         {
             return Components[ComponentType.Image].GetRenderData();
         }
-        private bool Exist(ComponentType component)
+        public void Dispose()
         {
-            return Components.ContainsKey(component);
+            if (Disposed) return;
+            Disposed = true;
+
+            // Remove from SpatialIndexer
+            OverlappedCells.ForEach(x => x.Remove(this));
+
+            // Remove from Scene
+            Parent.RemoveGameObject(this);
         }
     }
 }

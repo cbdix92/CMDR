@@ -37,5 +37,18 @@ namespace CMDR
             GameObjects.Add(gameObject);
             return GameObjects[GameObjects.Count - 1];
         }
+        public void RemoveGameObject(GameObject gameObject)
+        {
+
+            GameObjects.Remove(gameObject);
+            ActiveGameObjects.Remove(gameObject);
+            ColliderGameObjects.Remove(gameObject);
+
+            GameObjects.TrimExcess();
+            ActiveGameObjects.TrimExcess();
+            ColliderGameObjects.TrimExcess();
+
+            gameObject = null;
+        }
     }
 }

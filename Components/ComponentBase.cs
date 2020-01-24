@@ -5,7 +5,7 @@ using System.IO;
 
 namespace CMDR
 {
-    public abstract class Component
+    public abstract class Component : IDisposable
     {
         public ComponentType ID { get; private set; }
         public GameObject Parent;
@@ -15,6 +15,7 @@ namespace CMDR
             ID = id;
         }
         public virtual System.Drawing.Image GetRenderData() { return null; }
+        public virtual void Dispose() { return; }
     }
     public enum ComponentType
     {

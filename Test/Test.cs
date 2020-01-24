@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Input;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Test
 {
@@ -42,7 +43,7 @@ namespace Test
             KeyListener.AddKeyBind(Key.A, () => { GameObject1.Transform.Xvel += -_speed; }, () => { GameObject1.Transform.Xvel -= -_speed; });
             KeyListener.AddKeyBind(Key.S, () => { GameObject1.Transform.Yvel += _speed; }, () => { GameObject1.Transform.Yvel -= _speed; });
             KeyListener.AddKeyBind(Key.D, () => { GameObject1.Transform.Xvel += _speed; }, () => { GameObject1.Transform.Xvel -= _speed; });
-            KeyListener.AddKeyBind(Key.Space, () => { TestScene.AddGameObject(new Projectile(TestScene,GameObject1, _projectileImage)); });
+            KeyListener.AddKeyBind(Key.Space, () => { TestScene.AddGameObject(new Projectile(TestScene, GameObject1, _projectileImage)); });
 
 
             _display.Start();
@@ -63,6 +64,8 @@ namespace Test
             {
                 collider.Transform.X += 20.5F;
                 base.Transform.Xvel = 0;
+                base.Collider = false;
+                base.Dispose();
             }
         }
     }

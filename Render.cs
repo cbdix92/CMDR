@@ -19,11 +19,28 @@ namespace CMDR
         }
         internal static void ScreenBuffer()
         {
+            // Draw SpatialIndexer Grid Lines
+            foreach ((int,int) i in SpatialIndexer.GridCells.Keys)
+            {
+                int s = SpatialIndexer.CellSize;
+                int x = i.Item2 * s;
+                int y = i.Item1 * s;
+                int cx = x + s / 2;
+                int cy = y + s / 2;
+                Buffer.Graphics.DrawRectangle(new Pen(Brushes.Red), new Rectangle(x, y, s, s));
+                Buffer.Graphics.DrawString(SpatialIndexer.GridCells[i].Cache.Count.ToString(), new Font(Display.Font, FontStyle.Regular), Brushes.Red, cx, cy);
+            }
+
             Scene Scene = SceneManager.ActiveScene;
             foreach (GameObject GameObject in Scene.GameObjects)
             {
-                Buffer.Graphics.DrawImage(GameObject.GetRenderData(), GameObject.Transform.X, GameObject.Transform.Y);
+                if (GameObject != null)
+                {
+                    Buffer.Graphics.DrawImage(GameObject.GetRenderData(), GameObject.Transform.X, GameObject.Transform.Y);
+                }
+                    
             }
+
         }
         internal static void SetDisplay(Display display)
         {

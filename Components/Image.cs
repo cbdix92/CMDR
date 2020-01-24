@@ -21,5 +21,9 @@ namespace CMDR
         {
             return _image;
         }
+        public override void Dispose()
+        {
+            _image.Dispose();
+        }
     }
 }
