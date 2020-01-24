@@ -21,10 +21,7 @@ namespace CMDR
                     if (gameObject.Components.ContainsKey(ComponentType.PhysicsConstraints))
                     {
                         PhysicsConstraints p = (PhysicsConstraints)gameObject.Components[ComponentType.PhysicsConstraints];
-                        if (p.OnCollision != null)
-                        {
-                            p.OnCollision();
-                        }
+                        p.CollisonOccured(Collider);
                     }
                     gameObject.UnMove();
                 }
