@@ -34,7 +34,7 @@ namespace Test
 
 
             GameObject1.AddComponet(TestImage);
-            GameObject2.AddComponet(TestImage);
+            //GameObject2.AddComponet(TestImage);
 
             GameObject1.Collider = true;
             GameObject2.Collider = true;

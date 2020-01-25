@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 
 namespace CMDR
@@ -98,7 +99,15 @@ namespace CMDR
         }
         public System.Drawing.Image GetRenderData()
         {
-            return Components[ComponentType.Image].GetRenderData();
+            try
+            {
+                return Components[ComponentType.Image].GetRenderData();
+            }
+            catch
+            {
+                AddComponet(new Image(new Bitmap(1, 1)));
+                return Components[ComponentType.Image].GetRenderData();
+            }
         }
         public void Dispose()
         {

@@ -17,6 +17,10 @@ namespace CMDR
                 throw new FileNotFoundException($"The file: '{src}' Could not be found!");
             }
         }
+        public Image(System.Drawing.Bitmap bitmap) : base (ComponentType.Image)
+        {
+            _image = bitmap;
+        }
         public override System.Drawing.Image GetRenderData()
         {
             return _image;
