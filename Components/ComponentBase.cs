@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
-namespace CMDR
+namespace CMDR.Components
 {
     public abstract class Component : IDisposable
     {

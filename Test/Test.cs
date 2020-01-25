@@ -1,4 +1,5 @@
 ﻿using CMDR;
+using CMDR.Components;
 using System;
 using System.Windows.Input;
 using System.IO;
@@ -16,8 +17,8 @@ namespace Test
 
         public static float _speed = 2.5F;
 
-        public static CMDR.Image TestImage;
-        private static CMDR.Image _projectileImage;
+        public static Image TestImage;
+        private static Image _projectileImage;
 
         [STAThread]
         static void Main(string[] args)
@@ -29,12 +30,12 @@ namespace Test
             GameObject1 = TestScene.AddGameObject();
             GameObject2 = TestScene.AddGameObject(100, 300, 0);
 
-            TestImage = new CMDR.Image("Test.bmp");
-            _projectileImage = new CMDR.Image("Projectile.png");
+            TestImage = new Image("Test.bmp");
+            _projectileImage = new Image("Projectile.png");
 
 
             GameObject1.AddComponet(TestImage);
-            //GameObject2.AddComponet(TestImage);
+            GameObject2.AddComponet(TestImage);
 
             GameObject1.Collider = true;
             GameObject2.Collider = true;

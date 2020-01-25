@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMDR
+namespace CMDR.Components
 {
     public delegate void CollisionEventHandler(GameObject collider);
     

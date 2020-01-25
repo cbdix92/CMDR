@@ -6,7 +6,7 @@ namespace CMDR.Components
 {
     public sealed class State
     {
-        private StateMachine<object> _parent;
+        private StateMachine _parent;
         public bool SubState
         {
             set
@@ -17,19 +17,27 @@ namespace CMDR.Components
                 }
             }
         }
-        public State(StateMachine<object> parent)
+        public State(StateMachine parent)
         {
             _parent = parent;
         }
     }
-    public class StateMachine<T>:Component
+    public class StateMachine:Component
     {
         public State CurrentState { get; internal set; }
-        private Dictionary<State, T> _possibleStates;
+        private Dictionary<State, object> _possibleStates;
 
         public StateMachine():base(ComponentType.StateMachine)
         {
-            _possibleStates = new Dictionary<State, T>();
+            _possibleStates = new Dictionary<State, object>();
+        }
+        public object GetData(State state)
+        {
+            return _possibleStates[state];
+        }
+        public void NewState(object data)
+        {
+            _possibleStates.Add(new State(this), data);
         }
     }
 }
