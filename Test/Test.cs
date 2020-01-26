@@ -21,7 +21,7 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            _display = new Display(1920 / 2, 1080 / 2);
+            _display = new Display(1920, 1080);
 
             TestScene = new Scene();
 
@@ -42,6 +42,7 @@ namespace Test
 
             GameObject1.Collider = true;
             GameObject2.Collider = true;
+
 
             KeyListener.AddKeyBind(Key.W, () => { GameObject1.Transform.Yvel += -_speed; }, () => { GameObject1.Transform.Yvel -= -_speed; });
             KeyListener.AddKeyBind(Key.A, () => { GameObject1.Transform.Xvel += -_speed; }, () => { GameObject1.Transform.Xvel -= -_speed; });

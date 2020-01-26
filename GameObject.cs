@@ -11,10 +11,17 @@ namespace CMDR
         internal List<GameObject> CenterCell;
         public Dictionary<ComponentType, Component> Components = new Dictionary<ComponentType, Component>();
         public int Hash { get => this.GetHashCode(); }
+
+        private int _width;
+        private int _height;
         public int Width
         {
             get
             {
+                if (_width != 0)
+                {
+                    return _width;
+                }
                 try
                 {
                     return Components[ComponentType.RenderData].GetRenderData(this).Width;
@@ -24,11 +31,23 @@ namespace CMDR
                     return 1;
                 }
             }
+            set
+            {
+                _width = value;
+                if (SpatialIndexer.CellSize < value)
+                {
+                    SpatialIndexer.CellSize = value;
+                }
+            }
         }
         public int Height
         {
             get
             {
+                if (_height != 0)
+                {
+                    return _height;
+                }
                 try
                 {
                     return Components[ComponentType.RenderData].GetRenderData(this).Height;
@@ -36,6 +55,14 @@ namespace CMDR
                 catch
                 {
                     return 1;
+                }
+            }
+            set
+            {
+                _height = value;
+                if (SpatialIndexer.CellSize < value)
+                {
+                    SpatialIndexer.CellSize = value;
                 }
             }
         }
