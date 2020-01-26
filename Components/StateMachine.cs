@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace CMDR.Components
+namespace CMDR
 {
     public sealed class State
     {
         private StateMachine _parent;
-        public bool SubState
+        public bool Set
         {
             set
             {
@@ -31,13 +31,17 @@ namespace CMDR.Components
         {
             _possibleStates = new Dictionary<State, object>();
         }
-        public object GetData(State state)
+        public object GetData()
         {
-            return _possibleStates[state];
+            return _possibleStates[CurrentState];
         }
-        public void NewState(object data)
+        public void NewState(State state, object data)
         {
-            _possibleStates.Add(new State(this), data);
+            _possibleStates.Add(state, data);
+            if(CurrentState == null)
+            {
+                state.Set = true;
+            }
         }
     }
 }

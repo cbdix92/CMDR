@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CMDR.Components
+namespace CMDR
 {
     public delegate void CollisionEventHandler(GameObject collider);
     
@@ -17,7 +13,7 @@ namespace CMDR.Components
         {
             Parent = parent;
         }
-        public void CollisonOccured(GameObject collider)
+        public override void CollisionOccured(GameObject collider)
         {
             if (OnCollision != null)
             {

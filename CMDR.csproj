@@ -51,7 +51,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameObject.cs" />
-    <Compile Include="Components\Image.cs" />
+    <Compile Include="Components\RenderData.cs" />
     <Compile Include="KeyListener.cs" />
     <Compile Include="Physics.cs" />
     <Compile Include="Components\PhysicsConstraints.cs" />

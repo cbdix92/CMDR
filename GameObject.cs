@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 
 namespace CMDR
@@ -18,7 +17,7 @@ namespace CMDR
             {
                 try
                 {
-                    return Components[ComponentType.Image].GetRenderData().Width;
+                    return Components[ComponentType.RenderData].GetRenderData(this).Width;
                 }
                 catch
                 {
@@ -32,7 +31,7 @@ namespace CMDR
             {
                 try
                 {
-                    return Components[ComponentType.Image].GetRenderData().Height;
+                    return Components[ComponentType.RenderData].GetRenderData(this).Height;
                 }
                 catch
                 {
@@ -64,7 +63,7 @@ namespace CMDR
                 if (value && !Validate)
                 {
                     Parent.ColliderGameObjects.Add(this);
-                    this.AddComponet(new PhysicsConstraints(this));
+                    this.AddComponent(new PhysicsConstraints(this));
                 }
                 // False
                 else if (!value && Validate)
@@ -93,20 +92,41 @@ namespace CMDR
             OverlappedCells = new List<Cell>();
             CenterCell = new List<GameObject>();
         }
-        public void AddComponet(Component Componet)
+        public Component AddComponent(ComponentType componentType)
         {
-            Components.Add(Componet.ID, Componet);
+            switch(componentType)
+            {
+                case ComponentType.RenderData:
+                    AddComponent(new RenderData());
+                    return Components[ComponentType.RenderData];
+                
+                case ComponentType.PhysicsConstraints:
+                    AddComponent(new PhysicsConstraints(this));
+                    return Components[ComponentType.PhysicsConstraints];
+                
+                case ComponentType.StateMachine:
+                    AddComponent(new StateMachine());
+                    return Components[ComponentType.StateMachine];
+            }
+            return new None();
+        }
+        public void AddComponent(Component component)
+        {
+            if (Components.ContainsKey(component.ID))
+            {
+                Components.Remove(component.ID);
+            }
+            Components.Add(component.ID, component);
         }
         public System.Drawing.Image GetRenderData()
         {
             try
             {
-                return Components[ComponentType.Image].GetRenderData();
+                return Components[ComponentType.RenderData].GetRenderData(this);
             }
             catch
             {
-                AddComponet(new Image(new Bitmap(1, 1)));
-                return Components[ComponentType.Image].GetRenderData();
+                throw new Exception($"{this.ToString()} was never assigned a RenderData Component.");
             }
         }
         public void Dispose()
@@ -119,6 +139,13 @@ namespace CMDR
 
             // Remove from Scene
             Parent.RemoveGameObject(this);
+
+            // Remove RenderState if any exist
+            if (Components.ContainsKey(ComponentType.RenderData))
+            {
+                RenderData r = (RenderData)Components[ComponentType.RenderData];
+                r.GameObjectStates.Remove(this);
+            }
         }
     }
 }

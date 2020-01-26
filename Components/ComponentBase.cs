@@ -1,26 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 
-namespace CMDR.Components
+
+namespace CMDR
 {
     public abstract class Component : IDisposable
     {
         public ComponentType ID { get; private set; }
-        public GameObject Parent;
+        public virtual GameObject Parent { get; set; }
         
         public Component(ComponentType id)
         {
             ID = id;
         }
-        public virtual System.Drawing.Image GetRenderData() { return null; }
-        public virtual void Dispose() { return; }
+        // RenderData Methoods
+        public virtual RenderState LoadFile(string src) { return null; }
+        public virtual RenderState LoadImage(System.Drawing.Image image) { return null; }
+        public virtual System.Drawing.Image GetRenderData(GameObject parent) { return null; }
+        internal virtual void Init() { }
+
+        // PhysicsConstraints Methods
+        public virtual void CollisionOccured(GameObject collider) { }
+
+        // IDisposable Methods
+        public virtual void Dispose() { }
+    }
+    internal class None : Component
+    {
+        internal None() : base (ComponentType.None)
+        {
+            throw new Exception("None ComponentType Exception: A component was added but does not exist or was never implemented!");
+        }
     }
     public enum ComponentType
     {
-        Image,
-        Animation,
+        None,
+        RenderData,
         PhysicsConstraints,
         StateMachine
     }
