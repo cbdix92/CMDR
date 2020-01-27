@@ -41,6 +41,7 @@ namespace CMDR
             RenderUpdates.Handler += Render.Update;
             PhysicsUpdates.Handler += Physics.Update;
             PhysicsUpdates.Handler += KeyListener.Update;
+            PhysicsUpdates.Handler += Camera.Update;
         }
     }
 }

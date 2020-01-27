@@ -13,6 +13,7 @@ namespace Test
         public static GameObject GameObject2;
 
         public static float _speed = 2.5F;
+        public static float CameraSpeed = 2.5F;
 
         public static RenderData PlayerImageData;
         private static RenderData _projectileImage;
@@ -50,7 +51,11 @@ namespace Test
             KeyListener.AddKeyBind(Key.D, () => { GameObject1.Transform.Xvel += _speed; }, () => { GameObject1.Transform.Xvel -= _speed; });
             KeyListener.AddKeyBind(Key.Space, () => { TestScene.AddGameObject(new Projectile(TestScene, GameObject1, _projectileImage)); });
             KeyListener.AddKeyBind(Key.Q, () => { PlayerImage2.State = GameObject1; }, () => { PlayerImage1.State = GameObject1; });
-
+            
+            KeyListener.AddKeyBind(Key.Up, () => { Camera.Yvel += CameraSpeed; }, () => { Camera.Yvel -= CameraSpeed; });
+            KeyListener.AddKeyBind(Key.Left, () => { Camera.Xvel += CameraSpeed; }, () => { Camera.Xvel -= CameraSpeed; });
+            KeyListener.AddKeyBind(Key.Down, () => { Camera.Yvel += -CameraSpeed; }, () => { Camera.Yvel -= -CameraSpeed; });
+            KeyListener.AddKeyBind(Key.Right, () => { Camera.Xvel += -CameraSpeed; }, () => { Camera.Xvel -= -CameraSpeed; });
 
             _display.Start();
         }
