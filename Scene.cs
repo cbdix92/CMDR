@@ -23,6 +23,8 @@ namespace CMDR
         public List<GameObject> GameObjects = new List<GameObject>();
         public List<GameObject> ActiveGameObjects = new List<GameObject>();
         public List<GameObject> ColliderGameObjects = new List<GameObject>();
+        public List<GameObject> RenderObjects = new List<GameObject>();
+        public List<GameObject> RenderActive = new List<GameObject>();
         public Scene()
         {
             SceneManager.LoadScene(this);

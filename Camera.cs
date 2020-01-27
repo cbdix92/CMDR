@@ -14,10 +14,5 @@ namespace CMDR
         public static float Xvel { get; set; }
         public static float Yvel { get; set; }
 
-        internal static void Update(object caller, EventArgs e)
-        {
-            X += Xvel;
-            Y += Yvel;
-        }
     }
 }
