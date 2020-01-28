@@ -97,8 +97,11 @@ namespace CMDR
     {
         internal static List<GameObject> GetNearbyColliders(this GameObject gameObject)
         {
-            SpatialIndexer.CalcGridPos(gameObject);
-
+            if(!gameObject.GetStatic())
+            {
+                SpatialIndexer.CalcGridPos(gameObject);
+            }
+            
             List<GameObject> Colliders = new List<GameObject>(gameObject.CenterCell);
             for (int i = 0; i < gameObject.OverlappedCells.Count; i++)
             {

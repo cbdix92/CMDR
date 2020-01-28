@@ -10,7 +10,25 @@ namespace CMDR
         private Scene _parentScene;
         private bool _static;
         private bool _collider;
-        public bool Static { get; set; }
+        public bool Static
+        {
+            get => _static;
+            set
+            {
+                // All static GameObjects must also be colliders
+                if (value && !Collider)
+                {
+                    Collider  = true;
+                }
+                // Collider was set first. The GameObject may have resized the SpatialIndexer.
+                // If so, it needs to be reverted back
+                else if (value && Collider)
+                {
+                    // ...
+                }
+                _static = value;
+            }
+        }
         public bool Collider
         {
             get => _collider;
@@ -23,7 +41,7 @@ namespace CMDR
                 {
                     Parent.Parent.ColliderGameObjects.Add(Parent.Parent);
                     // Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
-                    if (SpatialIndexer.CellSize < Math.Max(Parent.Width, Parent.Height))
+                    if (SpatialIndexer.CellSize < Math.Max(Parent.Width, Parent.Height) && !Collider)
                     {
                         SpatialIndexer.CellSize = Math.Max(Parent.Width, Parent.Height);
                     }
@@ -49,6 +67,10 @@ namespace CMDR
             {
                 OnCollision(collider);
             }
+        }
+        public override bool GetStatic()
+        {
+            return Static;
         }
     }
 }
