@@ -48,12 +48,12 @@ namespace CMDR
             get => _collider;
             set
             {
-                bool Validate = Parent.Parent.ColliderGameObjects.Contains(Parent);
+                bool Validate = _parentScene.ColliderGameObjects.Contains(Parent);
 
                 // Set True
                 if(value && !Validate)
                 {
-                    Parent.Parent.ColliderGameObjects.Add(Parent.Parent);
+                    _parentScene.ColliderGameObjects.Add(Parent);
                     // Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
                     if (SpatialIndexer.CellSize < Math.Max(Parent.Width, Parent.Height) && !Collider)
                     {
@@ -63,7 +63,7 @@ namespace CMDR
                 // Set False
                 else if (!value && validate)
                 {
-                    Parent.Parent.ColliderGameObjects.Remove(Parent);
+                    _parentScene.ColliderGameObjects.Remove(Parent);
                     Parent.OverlappedCells.ForEach(x => x.Remove(Parent));
                 }
 
