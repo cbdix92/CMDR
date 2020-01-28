@@ -55,6 +55,8 @@ namespace CMDR
         {
             X += Xvel;
             Y += Yvel;
+
+            CheckGameObjects();
         }
     }
 }

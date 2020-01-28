@@ -98,7 +98,7 @@ namespace CMDR
                     Parent.ColliderGameObjects.Remove(this);
                     this.OverlappedCells.ForEach(x => x.Remove(this));
                 }
-                    
+
                 _collider = value;
 
                 // Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider

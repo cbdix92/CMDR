@@ -23,6 +23,7 @@ namespace CMDR
             {
                 GameObjectStates.Add(parent, Data[0]);
                 parent.AddComponent(this);
+                parent.Parent.RenderObjects.Add(parent);
             }
         }
         public void RemoveParent(GameObject parent)
@@ -30,6 +31,7 @@ namespace CMDR
             if(GameObjectStates.ContainsKey(parent))
             {
                 GameObjectStates.Remove(parent);
+                parent.Parent.RenderObjects.Remove(parent);
             }
         }
         public override RenderState LoadFile(string src)

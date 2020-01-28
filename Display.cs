@@ -8,6 +8,8 @@ namespace CMDR
     {
         public Display(int sizeX, int sizeY)
         {
+            Camera.SizeY = sizeY;
+            Camera.SizeX = sizeX;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Size = new Size(sizeX, sizeY);
@@ -17,6 +19,7 @@ namespace CMDR
         }
         public void Start()
         {
+            Camera.Start();
             Render.SetDisplay(this);
             Updater.Init();
             Application.EnableVisualStyles();

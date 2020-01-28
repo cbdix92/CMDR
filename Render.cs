@@ -27,19 +27,18 @@ namespace CMDR
                 int y = i.Item1 * s;
                 int cx = x + s / 2;
                 int cy = y + s / 2;
-                Buffer.Graphics.DrawRectangle(new Pen(Brushes.Red), new Rectangle(x+(int)Camera.X, y+(int)Camera.Y, s, s));
-                Buffer.Graphics.DrawString(SpatialIndexer.GridCells[i].Cache.Count.ToString(), new Font(Display.Font, FontStyle.Regular), Brushes.Red, cx+Camera.X, cy+Camera.Y);
+                Buffer.Graphics.DrawRectangle(new Pen(Brushes.Red), new Rectangle(x-(int)Camera.X, y-(int)Camera.Y, s, s));
+                Buffer.Graphics.DrawString(SpatialIndexer.GridCells[i].Cache.Count.ToString(), new Font(Display.Font, FontStyle.Regular), Brushes.Red, cx-Camera.X, cy-Camera.Y);
             }
 
-            // Draw GameObject RenderData to the buffer
+            // Draw GameObjects to the buffer
             Scene Scene = SceneManager.ActiveScene;
-            foreach (GameObject GameObject in Scene.GameObjects)
+            foreach (GameObject GameObject in Scene.RenderActive)
             {
                 if (GameObject != null)
                 {
-                    Buffer.Graphics.DrawImage(GameObject.GetRenderData(), GameObject.Transform.X+Camera.X, GameObject.Transform.Y+Camera.Y);
+                    Buffer.Graphics.DrawImage(GameObject.GetRenderData(), GameObject.Transform.X-Camera.X, GameObject.Transform.Y-Camera.Y);
                 }
-                    
             }
 
         }
