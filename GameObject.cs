@@ -128,7 +128,7 @@ namespace CMDR
                     return Components[ComponentType.RenderData];
                 
                 case ComponentType.PhysicsConstraints:
-                    AddComponent(new PhysicsConstraints(this));
+                    AddComponent(new PhysicsConstraints(this, Parent));
                     return Components[ComponentType.PhysicsConstraints];
                 
                 case ComponentType.StateMachine:
