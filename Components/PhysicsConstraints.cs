@@ -22,9 +22,23 @@ namespace CMDR
                 }
                 // Collider was set first. The GameObject may have resized the SpatialIndexer.
                 // If so, it needs to be reverted back
-                else if (value && Collider)
+                else if (value && Collider && !_static)
                 {
-                    // ...
+                    _static = value;
+                    int largestInt;
+                    foreach (GameObject collider in _parentScene.ColliderGameObjects)
+                    {
+                        if(!collider.Components[ComponentType.PhysicsConstraints].GetStatic())
+                        {
+                            int largestSize = Math.Max(collider.Width, collider.Height);
+                            largestInt = Math.Max(largestInt, largestSize);
+                        }
+                        
+                    }
+                    if (SpatialIndexer.CellSize > largestInt)
+                    {
+                        SpatialIndexer.CellSize = largestInt;
+                    }
                 }
                 _static = value;
             }
