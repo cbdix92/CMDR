@@ -26,6 +26,13 @@ namespace CMDR
 
             foreach (GameObject GameObject in ActiveObjects)
             {
+				if (!GameObject.Static)
+				{
+					Scene.ActiveGameObjects.Remove(GameObject);
+					GameObject.Xvel = 0;
+					GameObject.Yvel = 0;
+					continue;
+				}
                 GameObject.Move();
 
                 if (GameObject.Collider)
