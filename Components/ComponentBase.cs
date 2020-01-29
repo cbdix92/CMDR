@@ -20,6 +20,7 @@ namespace CMDR
 
         // PhysicsConstraints Methods
         public virtual void CollisionOccured(GameObject collider) { }
+        public virtual bool GetStatic() { return false; }
 
         // IDisposable Methods
         public virtual void Dispose() { }

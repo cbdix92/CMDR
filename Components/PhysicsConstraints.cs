@@ -8,8 +8,8 @@ namespace CMDR
     {
         public CollisionEventHandler OnCollision;
         private Scene _parentScene;
+        
         private bool _static;
-        private bool _collider;
         public bool Static
         {
             get => _static;
@@ -25,7 +25,7 @@ namespace CMDR
                 else if (value && Collider && !_static)
                 {
                     _static = value;
-                    int largestInt;
+                    int largestInt = 0;
                     foreach (GameObject collider in _parentScene.ColliderGameObjects)
                     {
                         if(!collider.Components[ComponentType.PhysicsConstraints].GetStatic())
@@ -45,7 +45,7 @@ namespace CMDR
         }
         public bool Collider
         {
-            get => _collider;
+            get => Parent.Collider;
             set
             {
                 bool Validate = _parentScene.ColliderGameObjects.Contains(Parent);
@@ -61,18 +61,17 @@ namespace CMDR
                     }
                 }
                 // Set False
-                else if (!value && validate)
+                else if (!value && Validate)
                 {
                     _parentScene.ColliderGameObjects.Remove(Parent);
                     Parent.OverlappedCells.ForEach(x => x.Remove(Parent));
                 }
 
-                _collider = value;
+                Parent.Collider = value;
             }
         }
-        public PhysicsConstraints(GameObject parent, Scene parentScene) : base (ComponentType.PhysicsConstraints)
+        public PhysicsConstraints(Scene parentScene) : base (ComponentType.PhysicsConstraints)
         {
-            Parent = parent;
             _parentScene = parentScene;
         }
         public override void CollisionOccured(GameObject collider)

@@ -78,7 +78,8 @@ namespace CMDR
                 _active = value;
             }
         }
-        private bool _collider;
+        public bool Collider { get; internal set; }
+        /*private bool _collider;
         public bool Collider
         {
             get => _collider;
@@ -108,7 +109,7 @@ namespace CMDR
                 }
                 SpatialIndexer.CalcGridPos(this);
             }
-        }
+        }*/
         public bool Disposed { get; private set; }
 
         public GameObject(Scene parent, float posX, float posY, int posZ)
@@ -119,6 +120,16 @@ namespace CMDR
             OverlappedCells = new List<Cell>();
             CenterCell = new List<GameObject>();
         }
+        public void Use(Component component)
+        {
+            // Preset components are added here
+            // ...
+            if (Components.ContainsKey(component.ID))
+            {
+                Components.Remove(component.ID);
+            }
+            Components.Add(component.ID, component);
+        }
         public Component AddComponent(ComponentType componentType)
         {
             switch(componentType)
@@ -128,7 +139,7 @@ namespace CMDR
                     return Components[ComponentType.RenderData];
                 
                 case ComponentType.PhysicsConstraints:
-                    AddComponent(new PhysicsConstraints(this, Parent));
+                    AddComponent(new PhysicsConstraints(Parent));
                     return Components[ComponentType.PhysicsConstraints];
                 
                 case ComponentType.StateMachine:

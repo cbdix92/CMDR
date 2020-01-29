@@ -37,12 +37,13 @@ namespace Test
             _projectileImage.LoadFile("Projectile.png");
             //RenderState ProjectileHandle = _projectileImage.LoadFile("Projectile.png");
 
+            PhysicsConstraints BasicPhysics = new PhysicsConstraints(TestScene);
 
             PlayerImageData.ParentTo(GameObject1);
             PlayerImageData.ParentTo(GameObject2);
-
-            GameObject1.Collider = true;
-            GameObject2.Collider = true;
+            GameObject1.AddComponent(BasicPhysics);
+            GameObject2.AddComponent(BasicPhysics);
+            BasicPhysics.Collider = true;
 
 
             KeyListener.AddKeyBind(Key.W, () => { GameObject1.Transform.Yvel += -_speed; }, () => { GameObject1.Transform.Yvel -= -_speed; });
@@ -62,12 +63,13 @@ namespace Test
 
         public class Projectile : GameObject
         {
+            private PhysicsConstraints p;
             public Projectile(Scene scene, GameObject parent, RenderData image) : base(scene, parent.Transform.X+parent.Width+1, parent.Transform.Y, parent.Transform.Z)
             {
                 base.Transform.Xvel += 5.5F;
                 image.ParentTo(this);
-                base.Collider = true;
-                PhysicsConstraints p = (PhysicsConstraints)base.Components[ComponentType.PhysicsConstraints];
+                p = (PhysicsConstraints)base.Components[ComponentType.PhysicsConstraints];
+                p.Collider = true;
                 p.OnCollision += OnCollision;
 
             }
@@ -75,7 +77,7 @@ namespace Test
             {
                 collider.Transform.X += 20.5F;
                 base.Transform.Xvel = 0;
-                base.Collider = false;
+                p.Collider = false;
                 base.Dispose();
             }
         }
