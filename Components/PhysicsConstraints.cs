@@ -66,6 +66,7 @@ namespace CMDR
 				_static = false;
 				Collider = false;
 			}
+			newParent.Static = val;
 		}
 		private void ColliderLogic(GameObject newParent, bool val)
 		{
@@ -95,6 +96,7 @@ namespace CMDR
 		}
 		internal void NewParent(GameObject newParent)
 		{
+			StaticLogic(newParent, _static);
 			ColliderLogic(newParent, _collider);
 		}
     }
