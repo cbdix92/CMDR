@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace CMDR
@@ -7,6 +8,7 @@ namespace CMDR
     {
         public ComponentType ID { get; private set; }
         public virtual GameObject Parent { get; set; }
+		public virtual List<GameObject> Parents = new List<GameObject>();
         
         public Component(ComponentType id)
         {

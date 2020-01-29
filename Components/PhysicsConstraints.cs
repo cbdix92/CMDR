@@ -9,65 +9,30 @@ namespace CMDR
         public CollisionEventHandler OnCollision;
         private Scene _parentScene;
         
-        private bool _static;
+		private bool _static;
         public bool Static
         {
             get => _static;
             set
             {
-                // All static GameObjects must also be colliders
-                if (value && !Collider)
-                {
-                    Collider  = true;
-                }
-                // Collider was set first. The GameObject may have resized the SpatialIndexer.
-                // If so, it needs to be reverted back
-                else if (value && Collider && !_static)
-                {
-                    _static = value;
-                    int largestInt = 0;
-                    foreach (GameObject collider in _parentScene.ColliderGameObjects)
-                    {
-                        if(!collider.Components[ComponentType.PhysicsConstraints].GetStatic())
-                        {
-                            int largestSize = Math.Max(collider.Width, collider.Height);
-                            largestInt = Math.Max(largestInt, largestSize);
-                        }
-                        
-                    }
-                    if (SpatialIndexer.CellSize > largestInt)
-                    {
-                        SpatialIndexer.CellSize = largestInt;
-                    }
-                }
-                _static = value;
+				_static = value;
+                foreach (GameObject parent in Parents)
+				{
+					StaticLogic(parent, _static);
+				}
             }
         }
+		private bool _collider;
         public bool Collider
         {
-            get => Parent.Collider;
+            get => _collider;
             set
             {
-                bool Validate = _parentScene.ColliderGameObjects.Contains(Parent);
-
-                // Set True
-                if(value && !Validate)
-                {
-                    _parentScene.ColliderGameObjects.Add(Parent);
-                    // Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
-                    if (SpatialIndexer.CellSize < Math.Max(Parent.Width, Parent.Height) && !Collider)
-                    {
-                        SpatialIndexer.CellSize = Math.Max(Parent.Width, Parent.Height);
-                    }
-                }
-                // Set False
-                else if (!value && Validate)
-                {
-                    _parentScene.ColliderGameObjects.Remove(Parent);
-                    Parent.OverlappedCells.ForEach(x => x.Remove(Parent));
-                }
-
-                Parent.Collider = value;
+				_collider = value;
+				foreach (GameObject parent in Parents)
+				{
+					ColliderLogic(parent, _collider);
+				}
             }
         }
         public PhysicsConstraints(Scene parentScene) : base (ComponentType.PhysicsConstraints)
@@ -81,9 +46,56 @@ namespace CMDR
                 OnCollision(collider);
             }
         }
-        public override bool GetStatic()
-        {
-            return Static;
-        }
+		private void StaticLogic(GameObject newParent, bool val)
+		{
+			// Set True
+			if (val && !Collider && !Static)
+			{
+				_static = true;
+				// All static GameObjects must also be colliders
+				Collider = true;
+			}
+			// Collider was set before Static! This can cause issues with the SpatialIndexer!
+			else if (val && Collider && !Static)
+			{
+				throw new Exception("Collider flag may not be set before the Static flag.\n Doing this can cause issues with the SpatialIndexer.\n Instead just simply set the static flag and the collider flag will be set internally.");
+			}
+			// Set False
+			else if (!val && Static)
+			{
+				_static = false;
+				Collider = false;
+			}
+		}
+		private void ColliderLogic(GameObject newParent, bool val)
+		{
+			// Set True
+			// Ensure that the newParent has not already been set true
+			if (val && !newParent.Collider)
+			{
+				_parentScene.ColliderGameObjects.Add(newParent);
+				// Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
+				if (SpatialIndexer.CellSize < Math.Max(newParent.Width, newParent.Height)
+				{
+					SpatialIndexer.CellSize = Math.Max(newParent.Width, newParent.Height);
+				}
+				else
+				{
+					SpatialIndexer.CalcGridPos(newParent);
+				}
+			}
+			// Set False
+			// Ensure that the newParent has not already been set false
+			else if (!val && newParent.Collider)
+			{
+				_parentScene.ColliderGameObjects.Remove(newParent);
+				newParent.OverlappedCells.ForEach(x => x.Remove(newParent));
+			}
+			newParent.Collider = val;
+		}
+		internal void NewParent(GameObject newParent)
+		{
+			ColliderLogic(newParent, _collider);
+		}
     }
 }

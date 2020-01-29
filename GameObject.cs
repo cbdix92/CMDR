@@ -72,44 +72,15 @@ namespace CMDR
             get => _active;
             set
             {
-                bool Validate = Parent.ActiveGameObjects.Contains(this);
-                if (value && !Validate) Parent.ActiveGameObjects.Add(this);
-                else if (!value && Validate) Parent.ActiveGameObjects.Remove(this);
+                if (value && !_active) Parent.ActiveGameObjects.Add(this);
+                else if (!value && _active) Parent.ActiveGameObjects.Remove(this);
                 _active = value;
             }
         }
+		
+		public bool Static { get; internal set; }
         public bool Collider { get; internal set; }
-        /*private bool _collider;
-        public bool Collider
-        {
-            get => _collider;
-            set
-            {
-                bool Validate = Parent.ColliderGameObjects.Contains(this);
-
-                // True
-                if (value && !Validate)
-                {
-                    Parent.ColliderGameObjects.Add(this);
-                    this.AddComponent(new PhysicsConstraints(this));
-                }
-                // False
-                else if (!value && Validate)
-                {
-                    Parent.ColliderGameObjects.Remove(this);
-                    this.OverlappedCells.ForEach(x => x.Remove(this));
-                }
-
-                _collider = value;
-
-                // Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
-                if (SpatialIndexer.CellSize < this.Width || SpatialIndexer.CellSize < this.Height)
-                {
-                    SpatialIndexer.CellSize = Math.Max(this.Width, this.Height);
-                }
-                SpatialIndexer.CalcGridPos(this);
-            }
-        }*/
+		
         public bool Disposed { get; private set; }
 
         public GameObject(Scene parent, float posX, float posY, int posZ)
