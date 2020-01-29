@@ -17,7 +17,7 @@ namespace CMDR
             get => _x;
             set
             {
-                if (value != 0 && Parent.Collider)
+                if (value != 0 && Parent.Collider && !Parent.Static)
                 {
                     SpatialIndexer.CalcGridPos(Parent);
                 }
@@ -29,7 +29,7 @@ namespace CMDR
             get => _y;
             set
             {
-                if (value != 0 && Parent.Collider)
+                if (value != 0 && Parent.Collider && !Parent.Static)
                 {
                     SpatialIndexer.CalcGridPos(Parent);
                 }

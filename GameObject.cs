@@ -72,7 +72,7 @@ namespace CMDR
             get => _active;
             set
             {
-                if (value && !_active) Parent.ActiveGameObjects.Add(this);
+                if (value && !_active && !Static) Parent.ActiveGameObjects.Add(this);
                 else if (!value && _active) Parent.ActiveGameObjects.Remove(this);
                 _active = value;
             }
