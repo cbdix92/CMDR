@@ -8,7 +8,7 @@ namespace CMDR
     {
         public ComponentType ID { get; private set; }
         public virtual GameObject Parent { get; set; }
-		public virtual List<GameObject> Parents = new List<GameObject>();
+		public List<GameObject> Parents = new List<GameObject>();
         
         public Component(ComponentType id)
         {
@@ -23,6 +23,7 @@ namespace CMDR
         // PhysicsConstraints Methods
         public virtual void CollisionOccured(GameObject collider) { }
         public virtual bool GetStatic() { return false; }
+        internal virtual void NewParent(GameObject newParennt) { }
 
         // IDisposable Methods
         public virtual void Dispose() { }

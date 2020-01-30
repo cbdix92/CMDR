@@ -41,7 +41,10 @@ namespace CMDR
         }
         public void RemoveGameObject(GameObject gameObject)
         {
-
+            foreach(ComponentType key in gameObject.Components.Keys)
+            {
+                gameObject.Components[key].Dispose();
+            }
             GameObjects.Remove(gameObject);
             ActiveGameObjects.Remove(gameObject);
             ColliderGameObjects.Remove(gameObject);

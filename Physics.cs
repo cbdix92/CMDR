@@ -30,22 +30,17 @@ namespace CMDR
         }
         internal static bool RectCollisionCheck(GameObject gameObject, GameObject collider)
         {
-            if (gameObject.Transform.X <= collider.Transform.X + collider.Width
+            return gameObject.Transform.X <= collider.Transform.X + collider.Width
              && gameObject.Transform.X + gameObject.Width >= collider.Transform.X
              && gameObject.Transform.Y <= collider.Transform.Y + collider.Height
-             && gameObject.Transform.Y + gameObject.Height >= collider.Transform.Y)
-            {
-                return true;
-            }
-            return false;
+             && gameObject.Transform.Y + gameObject.Height >= collider.Transform.Y;
         }
     }
     internal static class PhysicsExtensions
     {
         internal static bool HasZeroVelocity(this GameObject gameObject)
         {
-            if (gameObject.Transform.Xvel == 0 && gameObject.Transform.Yvel == 0) return true;
-            return false;
+            return gameObject.Transform.Xvel == 0 && gameObject.Transform.Yvel == 0;
         }
         internal static void Move(this GameObject GameObject)
         {

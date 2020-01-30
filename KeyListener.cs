@@ -50,5 +50,10 @@ namespace CMDR
         {
             KeyBinds.Add(new KeyBind(key, onKeyDown, onKeyUp));
         }
+        public static void RemoveKeyBind(Key key)
+        {
+            // Remove KeyBind Here
+            // ...
+        }
     }
 }

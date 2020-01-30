@@ -76,7 +76,7 @@ namespace CMDR
 			{
 				_parentScene.ColliderGameObjects.Add(newParent);
 				// Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
-				if (SpatialIndexer.CellSize < Math.Max(newParent.Width, newParent.Height)
+				if (SpatialIndexer.CellSize < Math.Max(newParent.Width, newParent.Height))
 				{
 					SpatialIndexer.CellSize = Math.Max(newParent.Width, newParent.Height);
 				}
@@ -94,8 +94,9 @@ namespace CMDR
 			}
 			newParent.Collider = val;
 		}
-		internal void NewParent(GameObject newParent)
+		internal override void NewParent(GameObject newParent)
 		{
+			Parents.Add(newParent);
 			StaticLogic(newParent, _static);
 			ColliderLogic(newParent, _collider);
 		}

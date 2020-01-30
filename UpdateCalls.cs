@@ -26,11 +26,11 @@ namespace CMDR
 
             foreach (GameObject GameObject in ActiveObjects)
             {
-				if (!GameObject.Static)
+				if (GameObject.Static)
 				{
 					Scene.ActiveGameObjects.Remove(GameObject);
-					GameObject.Xvel = 0;
-					GameObject.Yvel = 0;
+					GameObject.Transform.Xvel = 0;
+					GameObject.Transform.Yvel = 0;
 					continue;
 				}
                 GameObject.Move();
@@ -40,7 +40,7 @@ namespace CMDR
                     CheckCollision(GameObject);
                 }
 
-                if (GameObject.HasZeroVelocity()) Scene.ActiveGameObjects.Remove(GameObject);
+                if (GameObject.HasZeroVelocity()) GameObject.Active = false;
             }
         }
     }

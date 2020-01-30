@@ -100,6 +100,19 @@ namespace CMDR
                 Components.Remove(component.ID);
             }
             Components.Add(component.ID, component);
+            switch (component.ID)
+            {
+                case ComponentType.RenderData:
+                    break;
+
+                case ComponentType.PhysicsConstraints:
+                    Components[component.ID].NewParent(this);
+                    break;
+
+                case ComponentType.StateMachine:
+                    AddComponent(new StateMachine());
+                    break;
+            }
         }
         public Component AddComponent(ComponentType componentType)
         {
@@ -144,14 +157,19 @@ namespace CMDR
             Disposed = true;
 
             // Remove from SpatialIndexer
-            OverlappedCells.ForEach(x => x.Remove(this));
+            if (Collider)
+            {
+                OverlappedCells.ForEach(x => x.Remove(this));
+            }
 
             // Remove from Scene
             Parent.RemoveGameObject(this);
 
-            // Remove RenderState if any exist
+            // Remove RenderState
             if (Components.ContainsKey(ComponentType.RenderData))
             {
+                Parent.RenderActive.Remove(this);
+                Parent.RenderObjects.Remove(this);
                 RenderData r = (RenderData)Components[ComponentType.RenderData];
                 r.GameObjectStates.Remove(this);
             }

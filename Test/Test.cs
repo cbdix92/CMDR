@@ -41,8 +41,8 @@ namespace Test
 
             PlayerImageData.ParentTo(GameObject1);
             PlayerImageData.ParentTo(GameObject2);
-            GameObject1.AddComponent(BasicPhysics);
-            GameObject2.AddComponent(BasicPhysics);
+            GameObject1.Use(BasicPhysics);
+            GameObject2.Use(BasicPhysics);
             BasicPhysics.Collider = true;
 
 
@@ -58,6 +58,7 @@ namespace Test
             KeyListener.AddKeyBind(Key.Down, () => { Camera.Yvel += CameraSpeed; }, () => { Camera.Yvel -= CameraSpeed; });
             KeyListener.AddKeyBind(Key.Right, () => { Camera.Xvel += CameraSpeed; }, () => { Camera.Xvel -= CameraSpeed; });
 
+            Debugger.EnableDebugger = true;
             _display.Start();
         }
 
@@ -68,9 +69,10 @@ namespace Test
             {
                 base.Transform.Xvel += 5.5F;
                 image.ParentTo(this);
-                p = (PhysicsConstraints)base.Components[ComponentType.PhysicsConstraints];
+                p = new PhysicsConstraints(scene);
                 p.Collider = true;
                 p.OnCollision += OnCollision;
+                this.Use(p);
 
             }
             private void OnCollision(GameObject collider)

@@ -48,6 +48,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Components\ComponentBase.cs" />
     <Compile Include="Components\StateMachine.cs" />
+    <Compile Include="Debugger.cs" />
     <Compile Include="Display.cs">
       <SubType>Form</SubType>
     </Compile>
