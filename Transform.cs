@@ -10,6 +10,7 @@ namespace CMDR
         private int _z;
         private float _xvel;
         private float _yvel;
+		
         public GameObject Parent;
 
         public float X

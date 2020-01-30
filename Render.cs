@@ -10,6 +10,7 @@ namespace CMDR
         internal static Form Display;
         internal static BufferedGraphics Buffer;
         internal static BufferedGraphicsContext Buffer_CONTEXT;
+		internal static Scene Scene { get => SceneManager.ActiveScene; }
 
         public static int ZDepth { get; set; }
 
@@ -22,7 +23,6 @@ namespace CMDR
             Debugger.Draw();
 
             // Draw GameObjects to the buffer
-            Scene Scene = SceneManager.ActiveScene;
             foreach (GameObject GameObject in Scene.RenderActive)
             {
                 if (GameObject != null)

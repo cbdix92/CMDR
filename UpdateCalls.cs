@@ -7,10 +7,12 @@ namespace CMDR
     {
         public static void Update(object caller, EventArgs e)
         {
-            if (SceneManager.ActiveScene == null || SceneManager.ActiveScene.GameObjects[0] == null) return;
-            ClearScreen();
-            ScreenBuffer();
-            Draw();
+			if (Scene != null)
+			{
+				ClearScreen();
+				ScreenBuffer();
+				Draw();
+			}
         }
     }
 
