@@ -17,11 +17,11 @@ namespace CMDR
             get => _x;
             set
             {
+                _x = value;
                 if (value != 0 && Parent.Collider && !Parent.Static)
                 {
                     SpatialIndexer.CalcGridPos(Parent);
                 }
-                _x = value;
             }
         }
         public float Y
@@ -29,11 +29,11 @@ namespace CMDR
             get => _y;
             set
             {
+                _y = value;
                 if (value != 0 && Parent.Collider && !Parent.Static)
                 {
                     SpatialIndexer.CalcGridPos(Parent);
                 }
-                _y = value;
             }
         }
         public int Z
