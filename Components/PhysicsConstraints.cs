@@ -49,11 +49,12 @@ namespace CMDR
 		private void StaticLogic(GameObject newParent, bool val)
 		{
 			// Set True
-			if (val && !Collider && !Static)
+			if (val && !Collider)
 			{
 				_static = true;
 				// All static GameObjects must also be colliders
-				Collider = true;
+				_collider = true;
+				SpatialIndexer.CalcGridPos(newParent);
 			}
 			// Collider was set before Static! This can cause issues with the SpatialIndexer!
 			else if (val && Collider && !Static)
@@ -76,7 +77,7 @@ namespace CMDR
 			{
 				_parentScene.ColliderGameObjects.Add(newParent);
 				// Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
-				if (SpatialIndexer.CellSize < Math.Max(newParent.Width, newParent.Height))
+				if (SpatialIndexer.CellSize < Math.Max(newParent.Width, newParent.Height) && !_static)
 				{
 					SpatialIndexer.CellSize = Math.Max(newParent.Width, newParent.Height);
 				}

@@ -38,12 +38,14 @@ namespace Test
             //RenderState ProjectileHandle = _projectileImage.LoadFile("Projectile.png");
 
             PhysicsConstraints BasicPhysics = new PhysicsConstraints(TestScene);
+            PhysicsConstraints StaticTest = new PhysicsConstraints(TestScene);
 
             PlayerImageData.ParentTo(GameObject1);
             PlayerImageData.ParentTo(GameObject2);
             GameObject1.Use(BasicPhysics);
-            GameObject2.Use(BasicPhysics);
+            GameObject2.Use(StaticTest);
             BasicPhysics.Collider = true;
+            StaticTest.Static = true;
 
 
             KeyListener.AddKeyBind(Key.W, () => { GameObject1.Transform.Yvel += -_speed; }, () => { GameObject1.Transform.Yvel -= -_speed; });

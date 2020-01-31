@@ -26,7 +26,7 @@ namespace CMDR
         //public static List<GameObject>[,] GridCells;
         public static Dictionary<(int, int), Cell> GridCells;
 
-        private static int _cellSize;
+        private static int _cellSize = 30;
         public static int CellSize
         {
             get => _cellSize;
