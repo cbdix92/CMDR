@@ -14,16 +14,18 @@ namespace CMDR
         {
             ID = id;
         }
-        // RenderData Methoods
+        // RenderData Specific Methods
         public virtual RenderState LoadFile(string src) { return null; }
         public virtual RenderState LoadImage(System.Drawing.Image image) { return null; }
         public virtual System.Drawing.Image GetRenderData(GameObject parent) { return null; }
         internal virtual void Init() { }
 
-        // PhysicsConstraints Methods
-        public virtual void CollisionOccured(GameObject collider) { }
+        // PhysicsConstraints Specific Methods
+        public virtual void CollisionOccured(GameObject parent, GameObject collider) { }
         public virtual bool GetStatic() { return false; }
-        internal virtual void NewParent(GameObject newParennt) { }
+
+        // Universal Methods
+        internal virtual void NewParent(GameObject newParent) { }
 
         // IDisposable Methods
         public virtual void Dispose() { }

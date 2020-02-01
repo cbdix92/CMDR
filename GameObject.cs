@@ -93,8 +93,6 @@ namespace CMDR
         }
         public void Use(Component component)
         {
-            // Preset components are added here
-            // ...
             if (Components.ContainsKey(component.ID))
             {
                 Components.Remove(component.ID);
@@ -103,6 +101,7 @@ namespace CMDR
             switch (component.ID)
             {
                 case ComponentType.RenderData:
+                    Components[component.ID].NewParent(this);
                     break;
 
                 case ComponentType.PhysicsConstraints:
@@ -110,35 +109,8 @@ namespace CMDR
                     break;
 
                 case ComponentType.StateMachine:
-                    AddComponent(new StateMachine());
                     break;
             }
-        }
-        public Component AddComponent(ComponentType componentType)
-        {
-            switch(componentType)
-            {
-                case ComponentType.RenderData:
-                    AddComponent(new RenderData());
-                    return Components[ComponentType.RenderData];
-                
-                case ComponentType.PhysicsConstraints:
-                    AddComponent(new PhysicsConstraints(Parent));
-                    return Components[ComponentType.PhysicsConstraints];
-                
-                case ComponentType.StateMachine:
-                    AddComponent(new StateMachine());
-                    return Components[ComponentType.StateMachine];
-            }
-            return new None();
-        }
-        public void AddComponent(Component component)
-        {
-            if (Components.ContainsKey(component.ID))
-            {
-                Components.Remove(component.ID);
-            }
-            Components.Add(component.ID, component);
         }
         public System.Drawing.Image GetRenderData()
         {

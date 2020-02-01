@@ -17,12 +17,11 @@ namespace CMDR
             Data = new List<RenderState>();
             GameObjectStates = new Dictionary<GameObject, RenderState>();
         }
-        public void ParentTo(GameObject parent)
+        internal override void NewParent(GameObject parent)
         {
             if(!GameObjectStates.ContainsKey(parent) && Data != null)
             {
                 GameObjectStates.Add(parent, Data[0]);
-                parent.AddComponent(this);
                 parent.Parent.RenderObjects.Add(parent);
             }
         }

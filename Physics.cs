@@ -12,16 +12,15 @@ namespace CMDR
             // Get possible Colliders with "gameObject" via SpatialIndexer
             List<GameObject> Colliders = gameObject.GetNearbyColliders();
 
-            foreach (GameObject Collider in Colliders)
+            foreach (GameObject collider in Colliders)
             {
 
                 // Rect Check
-                if (RectCollisionCheck(gameObject, Collider))
+                if (RectCollisionCheck(gameObject, collider))
                 {
                     if (gameObject.Components.ContainsKey(ComponentType.PhysicsConstraints))
                     {
-                        PhysicsConstraints p = (PhysicsConstraints)gameObject.Components[ComponentType.PhysicsConstraints];
-                        p.CollisionOccured(Collider);
+                        gameObject.Components[ComponentType.PhysicsConstraints].CollisionOccured(gameObject, collider);
                     }
                     gameObject.UnMove();
                 }

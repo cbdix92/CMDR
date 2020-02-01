@@ -2,7 +2,7 @@
 
 namespace CMDR
 {
-    public delegate void CollisionEventHandler(GameObject collider);
+    public delegate void CollisionEventHandler(PhysicsConstraints caller, GameObject parent, GameObject collider);
     
     public class PhysicsConstraints : Component
     {
@@ -39,11 +39,11 @@ namespace CMDR
         {
             _parentScene = parentScene;
         }
-        public override void CollisionOccured(GameObject collider)
+        public override void CollisionOccured(GameObject parent, GameObject collider)
         {
             if (OnCollision != null)
             {
-                OnCollision(collider);
+                OnCollision(this, parent, collider);
             }
         }
 		private void StaticLogic(GameObject newParent, bool val)
