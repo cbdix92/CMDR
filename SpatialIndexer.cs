@@ -30,10 +30,13 @@ namespace CMDR
         public static int CellSize
         {
             get => _cellSize;
-            set
+            internal set
             {
-                _cellSize = value;
-                SetCellSize();
+                if (value != _cellSize)
+                {
+                    _cellSize = value;
+                    SetCellSize();
+                }
             }
         }
         private static SpatialIndexer _instance = new SpatialIndexer();
@@ -78,19 +81,13 @@ namespace CMDR
             
             // Remove Empty Cells
             foreach (Cell Cell in oldCells)
-            {
                 if (Cell.Cache.Count == 0)
-                {
                     GridCells.Remove(Cell.GridKey);
-                }
-            }
         }
         private static void CheckKey((int, int) key)
         {
             if (!GridCells.ContainsKey(key))
-            {
                 GridCells[key] = new Cell(key.Item1, key.Item2);
-            }
         }
     }
     internal static class SpatialIndexerExtensions
@@ -100,10 +97,9 @@ namespace CMDR
             SpatialIndexer.CalcGridPos(gameObject);
 
             List<GameObject> Colliders = new List<GameObject>(gameObject.CenterCell);
+            
             for (int i = 0; i < gameObject.OverlappedCells.Count; i++)
-            {
                 Colliders.AddRange(gameObject.OverlappedCells[i].Cache);
-            }
 
             List<GameObject> TrimmedList = Colliders.GroupBy(x => x.Hash).Select(y => y.FirstOrDefault()).ToList();
             TrimmedList.Remove(gameObject);

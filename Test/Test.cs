@@ -76,7 +76,7 @@ namespace Test
         }
         public static void OnProjectileCollision(PhysicsConstraints caller, GameObject parent, GameObject collider)
         {
-            collider.Transform.X += 20.5F;
+            collider.Transform.X += 10.0F;
             parent.Transform.Xvel = 0;
             parent.Dispose();
         }
@@ -86,6 +86,7 @@ namespace Test
             public Projectile(Scene scene, GameObject parent) : base(scene, parent.Transform.X+parent.Width+1, parent.Transform.Y, parent.Transform.Z)
             {
                 base.Transform.Xvel += 5.5F;
+                base.Transform.Yvel += 1.5F;
 
                 Use(ProjectileImageData);
                 Use(ProjectilePhysics);

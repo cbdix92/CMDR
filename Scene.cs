@@ -25,10 +25,14 @@ namespace CMDR
         public List<GameObject> ColliderGameObjects = new List<GameObject>();
         public List<GameObject> RenderObjects = new List<GameObject>();
         public List<GameObject> RenderActive = new List<GameObject>();
+        private List<GameObject>[] _master;
+
         public Scene()
         {
             SceneManager.LoadScene(this);
+            _master = new List<GameObject>[] { GameObjects, ActiveGameObjects, ColliderGameObjects, RenderObjects, RenderActive };
         }
+
         public GameObject AddGameObject() { return AddGameObject(0, 0, 0); }
         public GameObject AddGameObject(int posX, int posY, int posZ)
         {
@@ -41,17 +45,11 @@ namespace CMDR
         }
         public void RemoveGameObject(GameObject gameObject)
         {
-            foreach(ComponentType key in gameObject.Components.Keys)
+            foreach (List<GameObject> list in _master)
             {
-                gameObject.Components[key].Dispose();
+                list.Remove(gameObject);
+                list.TrimExcess();
             }
-            GameObjects.Remove(gameObject);
-            ActiveGameObjects.Remove(gameObject);
-            ColliderGameObjects.Remove(gameObject);
-
-            GameObjects.TrimExcess();
-            ActiveGameObjects.TrimExcess();
-            ColliderGameObjects.TrimExcess();
 
             gameObject = null;
         }

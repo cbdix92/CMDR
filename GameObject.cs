@@ -126,24 +126,22 @@ namespace CMDR
         public void Dispose()
         {
             if (Disposed) return;
+
             Disposed = true;
 
-            // Remove from SpatialIndexer
-            if (Collider)
-            {
-                OverlappedCells.ForEach(x => x.Remove(this));
-            }
-
             // Remove from Scene
-            Parent.RemoveGameObject(this);
+             Parent.RemoveGameObject(this);
 
-            // Remove RenderState
-            if (Components.ContainsKey(ComponentType.RenderData))
+            // Remove from all components
+            foreach (ComponentType type in Enum.GetValues(typeof(ComponentType)))
             {
-                Parent.RenderActive.Remove(this);
-                Parent.RenderObjects.Remove(this);
-                RenderData r = (RenderData)Components[ComponentType.RenderData];
-                r.GameObjectStates.Remove(this);
+                try
+                {
+                    Components[type].RemoveParent(this);
+                }
+                catch
+                {
+                }
             }
         }
     }

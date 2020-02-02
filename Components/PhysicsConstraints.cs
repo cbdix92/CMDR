@@ -10,29 +10,24 @@ namespace CMDR
         private Scene _parentScene;
         
 		private bool _static;
-        public bool Static
+		private bool _collider;
+
+		public bool Static
         {
             get => _static;
             set
             {
 				_static = value;
-                foreach (GameObject parent in Parents)
-				{
-					StaticLogic(parent, _static);
-				}
+				Parents.ForEach(P => StaticLogic(P, _static));
             }
         }
-		private bool _collider;
         public bool Collider
         {
             get => _collider;
             set
             {
 				_collider = value;
-				foreach (GameObject parent in Parents)
-				{
-					ColliderLogic(parent, _collider);
-				}
+				Parents.ForEach(P => ColliderLogic(P, _collider));
             }
         }
         public PhysicsConstraints(Scene parentScene) : base (ComponentType.PhysicsConstraints)
@@ -71,23 +66,16 @@ namespace CMDR
 		}
 		private void ColliderLogic(GameObject newParent, bool val)
 		{
-			// Set True
-			// Ensure that the newParent has not already been set true
 			if (val && !newParent.Collider)
 			{
 				_parentScene.ColliderGameObjects.Add(newParent);
-				// Make sure that the SpatialIndexer.CellSize is at least as large as the largest collider
+
+				// The CellSize must be as large as the largest collider in the scene. Static objects are not considered.
 				if (SpatialIndexer.CellSize < Math.Max(newParent.Width, newParent.Height) && !_static)
-				{
 					SpatialIndexer.CellSize = Math.Max(newParent.Width, newParent.Height);
-				}
 				else
-				{
 					SpatialIndexer.CalcGridPos(newParent);
-				}
 			}
-			// Set False
-			// Ensure that the newParent has not already been set false
 			else if (!val && newParent.Collider)
 			{
 				_parentScene.ColliderGameObjects.Remove(newParent);
@@ -95,11 +83,21 @@ namespace CMDR
 			}
 			newParent.Collider = val;
 		}
-		internal override void NewParent(GameObject newParent)
+        internal override void NewParent(GameObject newParent)
 		{
 			Parents.Add(newParent);
 			StaticLogic(newParent, _static);
 			ColliderLogic(newParent, _collider);
 		}
-    }
+		internal override void RemoveParent(GameObject parent)
+		{
+			Parents.Remove(parent);
+
+			if (Collider)
+			{
+				parent.OverlappedCells.ForEach(x => x.Remove(parent));
+				parent.CenterCell.Clear();
+			}
+		}
+	}
 }

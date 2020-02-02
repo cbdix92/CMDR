@@ -25,12 +25,11 @@ namespace CMDR
                 parent.Parent.RenderObjects.Add(parent);
             }
         }
-        public void RemoveParent(GameObject parent)
+        internal override void RemoveParent(GameObject parent)
         {
             if(GameObjectStates.ContainsKey(parent))
             {
                 GameObjectStates.Remove(parent);
-                parent.Parent.RenderObjects.Remove(parent);
             }
         }
         public override RenderState LoadFile(string src)

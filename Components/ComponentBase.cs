@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-    public abstract class Component : IDisposable
+    public abstract class Component
     {
         public ComponentType ID { get; private set; }
         public virtual GameObject Parent { get; set; }
@@ -25,10 +25,8 @@ namespace CMDR
         public virtual bool GetStatic() { return false; }
 
         // Universal Methods
-        internal virtual void NewParent(GameObject newParent) { }
-
-        // IDisposable Methods
-        public virtual void Dispose() { }
+        internal virtual void NewParent(GameObject parent) { }
+        internal virtual void RemoveParent(GameObject parent) { }
     }
     internal class None : Component
     {
