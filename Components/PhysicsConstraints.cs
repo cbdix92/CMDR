@@ -1,10 +1,11 @@
 ﻿using System;
+using CMDR.Components;
 
 namespace CMDR
 {
     public delegate void CollisionEventHandler(PhysicsConstraints caller, GameObject parent, GameObject collider);
     
-    public class PhysicsConstraints : Component
+    public class PhysicsConstraints : Component, IComponent
     {
         public CollisionEventHandler OnCollision;
         private Scene _parentScene;
@@ -30,17 +31,39 @@ namespace CMDR
 				Parents.ForEach(P => ColliderLogic(P, _collider));
             }
         }
+
         public PhysicsConstraints(Scene parentScene) : base (ComponentType.PhysicsConstraints)
         {
             _parentScene = parentScene;
         }
-        public override void CollisionOccured(GameObject parent, GameObject collider)
+
+        #region ICOMPONENT
+        public void Add(GameObject newParent)
+		{
+			Parents.Add(newParent);
+			StaticLogic(newParent, _static);
+			ColliderLogic(newParent, _collider);
+		}
+		public void Remove(GameObject parent)
+		{
+			Parents.Remove(parent);
+
+			if (Collider)
+			{
+				parent.OverlappedCells.ForEach(x => x.Remove(parent));
+				parent.CenterCell.Clear();
+			}
+		}
+        #endregion
+
+        public void OnCollisionOccured(GameObject parent, GameObject collider)
         {
+
             if (OnCollision != null)
-            {
                 OnCollision(this, parent, collider);
-            }
+
         }
+
 		private void StaticLogic(GameObject newParent, bool val)
 		{
 			// Set True
@@ -64,6 +87,7 @@ namespace CMDR
 			}
 			newParent.Static = val;
 		}
+
 		private void ColliderLogic(GameObject newParent, bool val)
 		{
 			if (val && !newParent.Collider)
@@ -83,21 +107,6 @@ namespace CMDR
 			}
 			newParent.Collider = val;
 		}
-        internal override void NewParent(GameObject newParent)
-		{
-			Parents.Add(newParent);
-			StaticLogic(newParent, _static);
-			ColliderLogic(newParent, _collider);
-		}
-		internal override void RemoveParent(GameObject parent)
-		{
-			Parents.Remove(parent);
 
-			if (Collider)
-			{
-				parent.OverlappedCells.ForEach(x => x.Remove(parent));
-				parent.CenterCell.Clear();
-			}
-		}
-	}
+    }
 }

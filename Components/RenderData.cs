@@ -2,9 +2,9 @@
 using System.IO;
 using System.Collections.Generic;
 
-namespace CMDR
+namespace CMDR.Components
 {
-    public class RenderData : Component
+    public class RenderData : Component, IComponent
     {
         // Holds all the possible States and associated RenderData
         public List<RenderState> Data;
@@ -17,7 +17,9 @@ namespace CMDR
             Data = new List<RenderState>();
             GameObjectStates = new Dictionary<GameObject, RenderState>();
         }
-        internal override void NewParent(GameObject parent)
+
+        #region ICOMPONENT
+        public void Add(GameObject parent)
         {
             if(!GameObjectStates.ContainsKey(parent) && Data != null)
             {
@@ -25,14 +27,18 @@ namespace CMDR
                 parent.Parent.RenderObjects.Add(parent);
             }
         }
-        internal override void RemoveParent(GameObject parent)
+
+        public void Remove(GameObject parent)
         {
             if(GameObjectStates.ContainsKey(parent))
             {
                 GameObjectStates.Remove(parent);
             }
         }
-        public override RenderState LoadFile(string src)
+        #endregion
+
+        #region IMAGE_LOADING
+        public RenderState LoadFile(string src)
         {
             try
             {
@@ -43,12 +49,14 @@ namespace CMDR
                 throw new FileNotFoundException($"The file: '{src}' Could not be found!");
             }
         }
-        public override RenderState LoadImage(System.Drawing.Image image)
+        public RenderState LoadImage(System.Drawing.Image image)
         {
             Data.Add(new RenderState(this, image));
             return Data[Data.Count - 1];
         }
-        public override System.Drawing.Image GetRenderData(GameObject parent)
+        #endregion
+
+        public System.Drawing.Image GetData(GameObject parent)
         {
             return GameObjectStates[parent].GetData();
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 
-namespace CMDR
+namespace CMDR.Components
 {
-    public class Transform
+    public class Transform : Component, IComponent
     {
         private float _x;
         private float _y;
@@ -12,9 +12,9 @@ namespace CMDR
         
         private float _xvel;
         private float _yvel;
-		
-       
+
         private GameObject _parent;
+
 
         #region Position_Properties
         public float X
@@ -87,7 +87,7 @@ namespace CMDR
             }
         }
         #endregion
-        public Transform(GameObject parent, float x = 0, float y = 0, int z = 0)
+        public Transform(GameObject parent, float x = 0, float y = 0, int z = 0) : base (ComponentType.Transform)
         {
             _parent = parent;
             X = x;
@@ -95,6 +95,14 @@ namespace CMDR
             Z = z;
             Xvel = 0;
             Yvel = 0;
+        }
+        public void Add(GameObject parent)
+        {
+
+        }
+        public void Remove(GameObject parent)
+        {
+
         }
     }
 }

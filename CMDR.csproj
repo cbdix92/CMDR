@@ -46,8 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
-    <Compile Include="Components\ComponentBase.cs" />
-    <Compile Include="Components\StateMachine.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\ComponentTypes.cs" />
+    <Compile Include="Components\IComponent.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="Display.cs">
       <SubType>Form</SubType>

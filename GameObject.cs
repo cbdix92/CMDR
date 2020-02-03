@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using CMDR.Components;
 
 namespace CMDR
 {
     public class GameObject : IDisposable
     {
         public Scene Parent;
+
+        #region COMPONENT_STORAGE
         public Transform Transform;
+        public RenderData RenderData;
+        public PhysicsConstraints PhysicsConstraints;
+        #endregion
+
         internal List<Cell> OverlappedCells;
         internal List<GameObject> CenterCell;
-        public Dictionary<ComponentType, Component> Components = new Dictionary<ComponentType, Component>();
-        public int Hash { get => this.GetHashCode(); }
 
         private int _width;
         private int _height;
+
+        private bool _active;
+
+        #region PROPERTIES
+        public int Hash { get => this.GetHashCode(); }
+
         public int Width
         {
             get
@@ -24,7 +35,7 @@ namespace CMDR
                 }
                 try
                 {
-                    return Components[ComponentType.RenderData].GetRenderData(this).Width;
+                    return RenderData.GetData(this).Width;
                 }
                 catch
                 {
@@ -40,6 +51,7 @@ namespace CMDR
                 }
             }
         }
+
         public int Height
         {
             get
@@ -50,7 +62,7 @@ namespace CMDR
                 }
                 try
                 {
-                    return Components[ComponentType.RenderData].GetRenderData(this).Height;
+                    return RenderData.GetData(this).Height;
                 }
                 catch
                 {
@@ -66,7 +78,7 @@ namespace CMDR
                 }
             }
         }
-        private bool _active;
+
         public bool Active
         {
             get => _active;
@@ -79,49 +91,47 @@ namespace CMDR
         }
 		
 		public bool Static { get; internal set; }
+
         public bool Collider { get; internal set; }
 		
         public bool Disposed { get; private set; }
 
+        #endregion
+
         public GameObject(Scene parent, float posX, float posY, int posZ)
         {
             Parent = parent;
-            Transform = new Transform(this, posX, posY, posZ);
+
+            this.Use(new Transform(this, posX, posY, posZ));
 
             OverlappedCells = new List<Cell>();
             CenterCell = new List<GameObject>();
         }
         public void Use(Component component)
         {
-            if (Components.ContainsKey(component.ID))
-            {
-                Components.Remove(component.ID);
-            }
-            Components.Add(component.ID, component);
+
+
             switch (component.ID)
             {
+                case ComponentType.Transform:
+                    this.Transform = (Transform)component;
+                    break;
+
                 case ComponentType.RenderData:
-                    Components[component.ID].NewParent(this);
+                    this.RenderData = (RenderData)component;
                     break;
 
                 case ComponentType.PhysicsConstraints:
-                    Components[component.ID].NewParent(this);
-                    break;
-
-                case ComponentType.StateMachine:
+                    this.PhysicsConstraints = (PhysicsConstraints)component;
                     break;
             }
         }
         public System.Drawing.Image GetRenderData()
         {
-            try
-            {
-                return Components[ComponentType.RenderData].GetRenderData(this);
-            }
-            catch
-            {
-                throw new Exception($"{this.ToString()} was never assigned a RenderData Component.");
-            }
+            if (RenderData == null)
+                throw new NullReferenceException("RenderData");
+
+            return RenderData.GetData(this);
         }
         public void Dispose()
         {
@@ -132,17 +142,12 @@ namespace CMDR
             // Remove from Scene
              Parent.RemoveGameObject(this);
 
-            // Remove from all components
-            foreach (ComponentType type in Enum.GetValues(typeof(ComponentType)))
-            {
-                try
-                {
-                    Components[type].RemoveParent(this);
-                }
-                catch
-                {
-                }
-            }
+            // Remove parent from all component objects
+            if (RenderData != null)
+                RenderData.Remove(this);
+
+            if (PhysicsConstraints != null)
+                PhysicsConstraints.Remove(this);
         }
     }
 }

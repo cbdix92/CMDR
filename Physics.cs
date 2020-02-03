@@ -18,10 +18,7 @@ namespace CMDR
                 // Rect Check
                 if (RectCollisionCheck(gameObject, collider))
                 {
-                    if (gameObject.Components.ContainsKey(ComponentType.PhysicsConstraints))
-                    {
-                        gameObject.Components[ComponentType.PhysicsConstraints].CollisionOccured(gameObject, collider);
-                    }
+                    gameObject.PhysicsConstraints.OnCollisionOccured(gameObject, collider);
                     gameObject.UnMove();
                 }
 
