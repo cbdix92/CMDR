@@ -12,13 +12,12 @@ namespace CMDR
             get => _enableDebugger;
             set
             {
-                if (value && !_enableDebugger)
+                if (value != _enableDebugger)
                 {
-                    KeyListener.AddKeyBind(Key.F5, () => { DrawSpatialLines = !DrawSpatialLines;  });
-                }
-                else if (!value && _enableDebugger)
-                {
-                    KeyListener.RemoveKeyBind(Key.F5);
+                    if (value)
+                        KeyListener.AddKeyBind(Key.F5, () => { DrawSpatialLines = !DrawSpatialLines; });
+                    else if (!value)
+                        KeyListener.RemoveKeyBind(Key.F5);
                 }
                 _enableDebugger = value;
             }

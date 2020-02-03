@@ -12,9 +12,6 @@ namespace Test
 
         public static Player Player1;
 
-        //public static GameObject GameObject1;
-        //public static GameObject GameObject2;
-
         public static float _speed = 6.0F;
         public static float CameraSpeed = 6.0F;
 

@@ -119,10 +119,12 @@ namespace CMDR
 
                 case ComponentType.RenderData:
                     this.RenderData = (RenderData)component;
+                    this.RenderData.Add(this);
                     break;
 
                 case ComponentType.PhysicsConstraints:
                     this.PhysicsConstraints = (PhysicsConstraints)component;
+                    this.PhysicsConstraints.Add(this);
                     break;
             }
         }

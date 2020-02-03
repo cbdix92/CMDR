@@ -8,14 +8,14 @@ namespace CMDR
         public static List<Scene> Scenes = new List<Scene>();
         public static Scene ActiveScene { get; set; }
         
-        public static void LoadScene(Scene newScene)
+        public static void LoadScene(Scene scene)
         {
-            Scenes.Add(newScene);
-            ActiveScene = newScene;
+            Scenes.Add(scene);
+            ActiveScene = scene;
         }
-        public static void UnloadScene(Scene oldScene)
+        public static void UnloadScene(Scene scene)
         {
-            Scenes.Remove(oldScene);
+            Scenes.Remove(scene);
         }
     }
     public class Scene

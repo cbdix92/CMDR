@@ -58,6 +58,7 @@ namespace CMDR
         }
 
     }
+
     public static partial class Camera
     {
         internal static void Update(object caller, EventArgs e)

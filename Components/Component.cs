@@ -14,11 +14,4 @@ namespace CMDR.Components
             ID = id;
         }
     }
-    internal class None : Component
-    {
-        internal None() : base (ComponentType.None)
-        {
-            throw new Exception("None ComponentType Exception: A component was added but does not exist or was never implemented!");
-        }
-    }
 }

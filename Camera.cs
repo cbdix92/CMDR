@@ -19,14 +19,14 @@ namespace CMDR
 
         public static bool CameraRectCheck(GameObject gameObject)
         {
-
+            // Check if "gameObject" is in camera view
             bool B1 = gameObject.Transform.X - X < SizeX;
             bool B2 = gameObject.Transform.Y - Y < SizeY;
             return B1 && B2;
         }
         internal static void Start()
         {
-            // Scan all the render objects and determine if they are on the screen and then set them to be rendered
+            // Scan all the render objects and determine if they are on the screen, then set them to be rendered
             foreach (GameObject gameObject in SceneManager.ActiveScene.RenderObjects)
             {
                 if (CameraRectCheck(gameObject))
