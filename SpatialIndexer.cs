@@ -35,7 +35,7 @@ namespace CMDR
                 if (value != _cellSize)
                 {
                     _cellSize = value;
-                    SetCellSize();
+                    SceneManager.ActiveScene.ColliderGameObjects.ForEach(x => CalcGridPos(x));
                 }
             }
         }
@@ -44,9 +44,16 @@ namespace CMDR
         {
             GridCells = new Dictionary<(int, int), Cell>();
         }
-        private static void SetCellSize()
+        internal static List<GameObject> GetNearbyColliders(GameObject gameObject)
         {
-            SceneManager.ActiveScene.ColliderGameObjects.ForEach(x => CalcGridPos(x));
+            List<GameObject> Colliders = new List<GameObject>();
+
+            for (int i = 0; i < gameObject.OverlappedCells.Count; i++)
+                Colliders.AddRange(gameObject.OverlappedCells[i].Cache);
+
+            List<GameObject> TrimmedList = Colliders.GroupBy(x => x.Hash).Select(y => y.FirstOrDefault()).ToList();
+            TrimmedList.Remove(gameObject);
+            return TrimmedList;
         }
 
         internal static void CalcGridPos(GameObject gameObject)
@@ -75,9 +82,9 @@ namespace CMDR
                     gameObject.OverlappedCells.Add(GridCells[(Y, X)]);
                 }
  
-            int CenterX = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width / 2) / CellSize);
-            int CenterY = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height / 2) / CellSize);
-            gameObject.CenterCell = GridCells[(CenterY, CenterX)].Cache;
+            //int CenterX = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width / 2) / CellSize);
+            //int CenterY = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height / 2) / CellSize);
+            //gameObject.CenterCell = GridCells[(CenterY, CenterX)].Cache;
             
             // Remove Empty Cells
             foreach (Cell Cell in oldCells)
@@ -88,22 +95,6 @@ namespace CMDR
         {
             if (!GridCells.ContainsKey(key))
                 GridCells[key] = new Cell(key.Item1, key.Item2);
-        }
-    }
-    internal static class SpatialIndexerExtensions
-    {
-        internal static List<GameObject> GetNearbyColliders(this GameObject gameObject)
-        {
-            SpatialIndexer.CalcGridPos(gameObject);
-
-            List<GameObject> Colliders = new List<GameObject>(gameObject.CenterCell);
-            
-            for (int i = 0; i < gameObject.OverlappedCells.Count; i++)
-                Colliders.AddRange(gameObject.OverlappedCells[i].Cache);
-
-            List<GameObject> TrimmedList = Colliders.GroupBy(x => x.Hash).Select(y => y.FirstOrDefault()).ToList();
-            TrimmedList.Remove(gameObject);
-            return TrimmedList;
         }
     }
 }

@@ -9,19 +9,18 @@ namespace CMDR
         {
             // BroadPhase
 
-            // Get possible Colliders with "gameObject" via SpatialIndexer
-            List<GameObject> Colliders = gameObject.GetNearbyColliders();
+            List<GameObject> Colliders = SpatialIndexer.GetNearbyColliders(gameObject);
 
             foreach (GameObject collider in Colliders)
             {
-
                 // Rect Check
                 if (RectCollisionCheck(gameObject, collider))
                 {
                     gameObject.PhysicsConstraints.OnCollisionOccured(gameObject, collider);
                     gameObject.UnMove();
                 }
-
+                if (gameObject.Disposed)
+                    return; 
             }
         }
         internal static bool RectCollisionCheck(GameObject gameObject, GameObject collider)

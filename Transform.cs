@@ -28,7 +28,8 @@ namespace CMDR.Components
                 }
                 if (value != 0 && _parent.Collider && !_parent.Static)
                 {
-                    SpatialIndexer.CalcGridPos(_parent);
+                    if (!_parent.Disposed)
+                        SpatialIndexer.CalcGridPos(_parent);
                 }
             }
         }
@@ -43,7 +44,8 @@ namespace CMDR.Components
                 }
                 if (value != 0 && _parent.Collider && !_parent.Static)
                 {
-                    SpatialIndexer.CalcGridPos(_parent);
+                    if (!_parent.Disposed)
+                        SpatialIndexer.CalcGridPos(_parent);
                 }
             }
         }

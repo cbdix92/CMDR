@@ -36,7 +36,8 @@ namespace CMDR
                     int cx = x + s / 2;
                     int cy = y + s / 2;
                     Render.Buffer.Graphics.DrawRectangle(new Pen(Brushes.Red), new Rectangle(x - (int)Camera.X, y - (int)Camera.Y, s, s));
-                    Render.Buffer.Graphics.DrawString(SpatialIndexer.GridCells[i].Cache.Count.ToString(), new Font(Render.Display.Font, FontStyle.Regular), Brushes.Red, cx - Camera.X, cy - Camera.Y);
+                    Render.Buffer.Graphics.DrawString(SpatialIndexer.GridCells[i].Cache.Count.ToString(), Render.Display.Font, Brushes.Red, cx - Camera.X, cy - Camera.Y);
+                    Render.Buffer.Graphics.DrawString("("+i.Item1 + ", " + i.Item2+")", Render.Display.Font, Brushes.Red, x - (int)Camera.X + 5, y - (int)Camera.Y + 5);
                 }
             }
         }

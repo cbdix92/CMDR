@@ -26,23 +26,24 @@ namespace CMDR
 
             List<GameObject> ActiveObjects = new List<GameObject>(Scene.ActiveGameObjects);
 
-            foreach (GameObject GameObject in ActiveObjects)
+            foreach (GameObject gameObject in ActiveObjects)
             {
-				if (GameObject.Static)
+				if (gameObject.Static)
 				{
-					Scene.ActiveGameObjects.Remove(GameObject);
-					GameObject.Transform.Xvel = 0;
-					GameObject.Transform.Yvel = 0;
+					Scene.ActiveGameObjects.Remove(gameObject);
+					gameObject.Transform.Xvel = 0;
+					gameObject.Transform.Yvel = 0;
 					continue;
 				}
-                GameObject.Move();
+                gameObject.Move();
 
-                if (GameObject.Collider)
+                if (gameObject.Collider)
                 {
-                    CheckCollision(GameObject);
+                    SpatialIndexer.CalcGridPos(gameObject);
+                    CheckCollision(gameObject);
                 }
 
-                if (GameObject.HasZeroVelocity()) GameObject.Active = false;
+                if (gameObject.HasZeroVelocity()) gameObject.Active = false;
             }
         }
     }

@@ -75,7 +75,6 @@ namespace Test
         public static void OnProjectileCollision(PhysicsConstraints caller, GameObject parent, GameObject collider)
         {
             collider.Transform.X += 10.0F;
-            parent.Transform.Xvel = 0;
             parent.Dispose();
         }
 

@@ -51,7 +51,6 @@ namespace CMDR
 			if (Collider)
 			{
 				parent.OverlappedCells.ForEach(x => x.Remove(parent));
-				parent.CenterCell.Clear();
 			}
 		}
         #endregion

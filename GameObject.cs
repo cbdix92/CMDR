@@ -15,7 +15,6 @@ namespace CMDR
         #endregion
 
         internal List<Cell> OverlappedCells;
-        internal List<GameObject> CenterCell;
 
         private int _width;
         private int _height;
@@ -105,7 +104,6 @@ namespace CMDR
             this.Use(new Transform(this, posX, posY, posZ));
 
             OverlappedCells = new List<Cell>();
-            CenterCell = new List<GameObject>();
         }
         public void Use(Component component)
         {
@@ -137,9 +135,12 @@ namespace CMDR
         }
         public void Dispose()
         {
-            if (Disposed) return;
+            if (Disposed)
+                return;
 
-            Disposed = true;
+            // Remove from SpatialIndexer
+            foreach (Cell cell in OverlappedCells)
+                cell.Remove(this);
 
             // Remove from Scene
              Parent.RemoveGameObject(this);
@@ -150,6 +151,8 @@ namespace CMDR
 
             if (PhysicsConstraints != null)
                 PhysicsConstraints.Remove(this);
+
+            Disposed = true;
         }
     }
 }
