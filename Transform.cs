@@ -28,7 +28,6 @@ namespace CMDR.Components
                 }
                 if (value != 0 && _parent.Collider && !_parent.Static)
                 {
-                    if (!_parent.Disposed)
                         SpatialIndexer.CalcGridPos(_parent);
                 }
             }
@@ -44,7 +43,6 @@ namespace CMDR.Components
                 }
                 if (value != 0 && _parent.Collider && !_parent.Static)
                 {
-                    if (!_parent.Disposed)
                         SpatialIndexer.CalcGridPos(_parent);
                 }
             }
@@ -89,7 +87,7 @@ namespace CMDR.Components
             }
         }
         #endregion
-        public Transform(GameObject parent, float x = 0, float y = 0, int z = 0) : base (ComponentType.Transform)
+        internal Transform(GameObject parent, float x = 0, float y = 0, int z = 0) : base (ComponentType.Transform)
         {
             _parent = parent;
             X = x;
@@ -100,7 +98,7 @@ namespace CMDR.Components
         }
         public void Add(GameObject parent)
         {
-
+            
         }
         public void Remove(GameObject parent)
         {

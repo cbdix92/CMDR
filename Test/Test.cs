@@ -11,6 +11,7 @@ namespace Test
         public static Scene TestWorld;
 
         public static Player Player1;
+        public static GameObject Player1_Child;
 
         public static float _speed = 6.0F;
         public static float CameraSpeed = 6.0F;
@@ -59,6 +60,9 @@ namespace Test
 
 
             Player1 = new Player(TestWorld);
+            Player1_Child = TestWorld.AddGameObject(100, 100, 0);
+            Player1_Child.Use(PlayerImageData);
+            //Player1_Child.Use(Player1.Transform);
 
             Ground.Use(SceneImageData);
             Ground.Use(StaticPhysics);

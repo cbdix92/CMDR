@@ -23,7 +23,6 @@ namespace CMDR
     }
     internal class SpatialIndexer
     {
-        //public static List<GameObject>[,] GridCells;
         public static Dictionary<(int, int), Cell> GridCells;
 
         private static int _cellSize = 30;
@@ -58,6 +57,13 @@ namespace CMDR
 
         internal static void CalcGridPos(GameObject gameObject)
         {
+            // Recaculating grid position for a disposed 
+            // object will cause ghost objects to remain 
+            // inside a gridcell if the object is both 
+            // moving and disposed on collision. DO NOT REMOVE THIS!
+            if (gameObject.Disposed)
+                return;
+
             // Remove "gameObject" from all the current cells then reset "gameObject.CurrentCells"
             List<Cell> oldCells = new List<Cell>(gameObject.OverlappedCells);
             gameObject.OverlappedCells.ForEach(x => x.Cache.Remove(gameObject));
@@ -76,12 +82,15 @@ namespace CMDR
                 for (int X = P1X; X <= P2X; X++)
                 {
                     // Create a new cell if it doesn't exist
-                    CheckKey((Y, X));
+                    if (!GridCells.ContainsKey((Y, X)))
+                        GridCells[(Y, X)] = new Cell(Y, X);
 
                     GridCells[(Y,X)].Cache.Add(gameObject);
                     gameObject.OverlappedCells.Add(GridCells[(Y, X)]);
                 }
  
+            // WHICH GRID CELL CONATINS THE CENTER OF THE OBJECT. FOR TWO OBJECTS TO BE COLLIDING ONE OF THEM MUST HAVE THEIR CENTER
+            // INSIDE OF THE SHARED GRID CELL. THIS WILL HELP ME TO OPTIMIZE THE SPATIAL INDEXER IN THE FUTURE.
             //int CenterX = (int)Math.Floor((double)(gameObject.Transform.X + gameObject.Width / 2) / CellSize);
             //int CenterY = (int)Math.Floor((double)(gameObject.Transform.Y + gameObject.Height / 2) / CellSize);
             //gameObject.CenterCell = GridCells[(CenterY, CenterX)].Cache;
@@ -90,11 +99,6 @@ namespace CMDR
             foreach (Cell Cell in oldCells)
                 if (Cell.Cache.Count == 0)
                     GridCells.Remove(Cell.GridKey);
-        }
-        private static void CheckKey((int, int) key)
-        {
-            if (!GridCells.ContainsKey(key))
-                GridCells[key] = new Cell(key.Item1, key.Item2);
         }
     }
 }

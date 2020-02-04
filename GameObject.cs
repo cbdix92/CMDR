@@ -112,7 +112,9 @@ namespace CMDR
             switch (component.ID)
             {
                 case ComponentType.Transform:
-                    this.Transform = (Transform)component;
+                    Transform t = (Transform)component;
+                    t.Add(this);
+                    this.Transform = t;
                     break;
 
                 case ComponentType.RenderData:
