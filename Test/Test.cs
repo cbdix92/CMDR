@@ -62,7 +62,7 @@ namespace Test
             Player1 = new Player(TestWorld);
             Player1_Child = TestWorld.AddGameObject(100, 100, 0);
             Player1_Child.Use(PlayerImageData);
-            //Player1_Child.Use(Player1.Transform);
+            Player1_Child.Use(Player1.Transform);
 
             Ground.Use(SceneImageData);
             Ground.Use(StaticPhysics);

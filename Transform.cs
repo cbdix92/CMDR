@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace CMDR.Components
 {
@@ -15,6 +16,7 @@ namespace CMDR.Components
 
         private GameObject _parent;
 
+        public List<GameObject> Children;
 
         #region Position_Properties
         public float X
@@ -22,14 +24,7 @@ namespace CMDR.Components
             get => _x;
             set
             {
-                if (!_parent.Static)
-                {
-                    _x = value;
-                }
-                if (value != 0 && _parent.Collider && !_parent.Static)
-                {
-                        SpatialIndexer.CalcGridPos(_parent);
-                }
+                _x = PositionLogic(value, _x);
             }
         }
         public float Y
@@ -37,14 +32,7 @@ namespace CMDR.Components
             get => _y;
             set
             {
-                if (!_parent.Static)
-                {
-                    _y = value;
-                }
-                if (value != 0 && _parent.Collider && !_parent.Static)
-                {
-                        SpatialIndexer.CalcGridPos(_parent);
-                }
+                _y = PositionLogic(value, _y);
             }
         }
         public int Z
@@ -52,11 +40,7 @@ namespace CMDR.Components
             get => _z;
             set
             {
-                if (value > Render.ZDepth)
-                {
-                    _z = Render.ZDepth;
-                }
-                else _z = Math.Max(0, value);
+                _z = Math.Min(Math.Abs(value), Render.ZDepth);
             }
         }
         #endregion
@@ -72,6 +56,7 @@ namespace CMDR.Components
                     _parent.Active = true;
                 }
                 _xvel = value;
+                Children.ForEach(child => child.Transform.Xvel = value);
             }
         }
         public float Yvel
@@ -84,25 +69,37 @@ namespace CMDR.Components
                     _parent.Active = true;
                 }
                 _yvel = value;
+                Children.ForEach(child => child.Transform.Yvel = value);
             }
         }
         #endregion
         internal Transform(GameObject parent, float x = 0, float y = 0, int z = 0) : base (ComponentType.Transform)
         {
             _parent = parent;
+            Children = base.Parents;
             X = x;
             Y = y;
             Z = z;
             Xvel = 0;
             Yvel = 0;
         }
+        private float PositionLogic(float val, float staticDefault)
+        {
+            if (_parent.Static)
+                return staticDefault;
+
+            if (val != 0 && _parent.Collider)
+                SpatialIndexer.CalcGridPos(_parent);
+
+            return val;
+        }
         public void Add(GameObject parent)
         {
-            
+            Children.Add(parent);
         }
         public void Remove(GameObject parent)
         {
-
+            Children.Remove(parent);
         }
     }
 }

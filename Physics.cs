@@ -37,15 +37,16 @@ namespace CMDR
         {
             return gameObject.Transform.Xvel == 0 && gameObject.Transform.Yvel == 0;
         }
-        internal static void Move(this GameObject GameObject)
+        internal static void Move(this GameObject gameObject)
         {
-            GameObject.Transform.X += GameObject.Transform.Xvel;
-            GameObject.Transform.Y += GameObject.Transform.Yvel;
+            gameObject.Transform.X += gameObject.Transform.Xvel;
+            gameObject.Transform.Y += gameObject.Transform.Yvel;
         }
-        internal static void UnMove(this GameObject GameObject)
+        internal static void UnMove(this GameObject gameObject)
         {
-            GameObject.Transform.X -= GameObject.Transform.Xvel;
-            GameObject.Transform.Y -= GameObject.Transform.Yvel;
+            gameObject.Transform.X -= gameObject.Transform.Xvel;
+            gameObject.Transform.Y -= gameObject.Transform.Yvel;
+            gameObject.Transform.Children.ForEach(child => child.UnMove());
         }
     }
 }

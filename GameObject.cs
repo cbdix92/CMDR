@@ -100,21 +100,18 @@ namespace CMDR
         public GameObject(Scene parent, float posX, float posY, int posZ)
         {
             Parent = parent;
-
-            this.Use(new Transform(this, posX, posY, posZ));
+            this.Transform = new Transform(this, posX, posY, posZ);
 
             OverlappedCells = new List<Cell>();
         }
         public void Use(Component component)
         {
 
-
             switch (component.ID)
             {
                 case ComponentType.Transform:
                     Transform t = (Transform)component;
                     t.Add(this);
-                    this.Transform = t;
                     break;
 
                 case ComponentType.RenderData:
