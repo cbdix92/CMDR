@@ -10,7 +10,7 @@ namespace CMDR
     {
         public static byte AlphaThreshold = 60;
 
-        internal static bool BitCollide(GameObject gameObject, GameObject collider)
+        internal static bool BitColliderCheck(GameObject gameObject, GameObject collider)
         {
             bool Result = false;
 			
