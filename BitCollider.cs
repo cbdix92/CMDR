@@ -50,15 +50,16 @@ namespace CMDR
 
             System.Drawing.Bitmap Bitmap = new System.Drawing.Bitmap(image);
 
-            for (int i = 0; i <= DataSize; i++)
+            for (int i = 0; i <= DataSize - 1; i++)
             {
-                if (i <= Width - 1)
+                if (i >= Width - 1)
                 {
-                    Data[i] = Bitmap.GetPixel(i % Width - 1, 0).A > BitCollider.AlphaThreshold;
-                    continue;
+                    Data[i] = Bitmap.GetPixel(i % Width, Math.Abs(i / Width)).A > BitCollider.AlphaThreshold;
                 }
-
-                Data[i] = Bitmap.GetPixel(i % Width - 1, Math.Abs(i / Width)).A > BitCollider.AlphaThreshold;
+                else
+                {
+                    Data[i] = Bitmap.GetPixel(i % Width, 0).A > BitCollider.AlphaThreshold;
+                }
             }
         }
     }
