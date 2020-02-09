@@ -5,7 +5,7 @@ namespace CMDR
 {
 	public static class DataMGR
 	{
-		public static GameObjectCollection GameObjects = new GameObjectCollection();
+		public static List<GameObject> GameObjects = new List<GameObject>();
 		
 		public static Dictionary<ComponentType, List<IComponent>> = new Dictionary<ComponentType, List<IComponent>>();
 		
@@ -21,11 +21,30 @@ namespace CMDR
 			}
 		}
 	}
-	
-	public struct GameObject
+	public class GameObjectCollection : CollectionBase
 	{
-		
+		public GameObject this[uint index]
+		{
+			get => this.List[index];
+			set
+			{
+				if (value.Handle != null)
+					this.List[value.Handle] = null;
+
+				value.Handle = index;
+				this.List[index] = value;
+			}
+		}
+		public GameObjectCollection()
+		{
+			
+		}
+	}
+	
+	public class GameObject
+	{
 		public Dictionary<ComponentType, uint> Components;
+		public uint Handle;
 		
 		public GameObject()
 		{
@@ -55,7 +74,7 @@ namespace CMDR
 		public void Use(IComponent[] components)
 		{
 			foreach(IComponent component in components)
-				Use(component);Components = new Dictionary<ComponentType, uint>();
+				Use(component);
 		}
 	}
 	public interface IComponent
