@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CMDR
 {
-	public static class DataMGR
+	public static class Data
 	{
 		public static List<GameObject> GameObjects = new List<GameObject>();
 		
@@ -89,14 +89,14 @@ namespace CMDR
 	}
 	public interface IComponent
 	{
-		public uint Parent;
-		public ComponentType ID;
+		public uint Parent{ get; set; }
+		public Type ID { get; set; }
 	}
 	public struct Transform : IComponent
 	{
 		// IComponent
 		public uint Parent;
-		public ComponentType ID;
+		public Type ID;
 		
 		private float _x;
 		private float _y;
@@ -161,30 +161,31 @@ namespace CMDR
 		public Transform(uint parent)
 		{
 			Parent = parent;
-			ID = ComponentType.Transform;
+			ID = typeof(Transform);
 		}
 	}
 	public struct RenderData : IComponent
 	{
 		// IComponent
 		public uint Parent;
-		public ComponentType ID;
+		public Type ID;
 		
 		public RenderData(uint parent)
 		{
 			Parent = parent;
-			ID = ComponentType.RenderData;
+			ID = typeof(RenderData);
 		}
 	}
 	public struct Collider
 	{
 		bool[,] ColData;
 		public uint Parent;
+		public Type ID;
 		
 		public Collider(uint parent)
 		{
 			Parent = parent;
-			ID = ComponentType.Collider;
+			ID = typeof(Collider);
 			
 			ColData = BitCollider.GenerateCollisionData(parent);
 		}
@@ -192,10 +193,10 @@ namespace CMDR
 	public struct Static
 	{
 		public uint Parent;
+		public Type ID;
 		public Static(uint parent)
 		{
 			Parent = parent;
-			ID = ComponentType.Static;
-		}
+			ID = typeof(Static);
 	}
 }
