@@ -7,7 +7,7 @@ namespace CMDR
 	{
 		public static List<GameObject> GameObjects = new List<GameObject>();
 		
-		public static Dictionary<ComponentType, List<IComponent>> = new Dictionary<ComponentType, List<IComponent>>();
+		public static Dictionary<Type, List<IComponent>>  Components = new Dictionary<Type, List<IComponent>>();
 		
 		public static uint GenerateGameObject(IComponent[] components)
 		{
@@ -28,9 +28,6 @@ namespace CMDR
 			get => this.List[index];
 			set
 			{
-				if (value.Handle != null)
-					this.List[value.Handle] = null;
-
 				value.Handle = index;
 				this.List[index] = value;
 			}
@@ -43,16 +40,29 @@ namespace CMDR
 	
 	public class GameObject
 	{
-		public Dictionary<ComponentType, uint> Components;
-		public uint Handle;
+		private uint _handle;
+		public Dictionary<Type, uint> Components;
+		public uint Handle
+		{
+			get => _handle;
+			set
+			{
+				if(value != _handle)
+				{
+					_handle = value;
+					foreach(Type t in Components)
+						Components[t].Parent = _handle;
+				}
+			}
+		}
 		
 		public GameObject()
 		{
-			Components = new Dictionary<ComponentType, uint>();
+			Components = new Dictionary<Type, uint>();
 		}
 		public GameObject(IComponent[] components)
 		{
-			Components = new Dictionary<ComponentType, uint>();
+			Components = new Dictionary<Type, uint>();
 			
 			Use(components);
 		}
@@ -79,13 +89,13 @@ namespace CMDR
 	}
 	public interface IComponent
 	{
-		public uint parent;
+		public uint Parent;
 		public ComponentType ID;
 	}
 	public struct Transform : IComponent
 	{
 		// IComponent
-		public uint parent;
+		public uint Parent;
 		public ComponentType ID;
 		
 		private float _x;
@@ -148,31 +158,32 @@ namespace CMDR
         }
         #endregion
 		
-		public Transform(uint _parent)
+		public Transform(uint parent)
 		{
-			parent = _parent;
+			Parent = parent;
 			ID = ComponentType.Transform;
 		}
 	}
 	public struct RenderData : IComponent
 	{
 		// IComponent
-		public uint parent;
+		public uint Parent;
 		public ComponentType ID;
 		
-		public RenderData(uint _parent)
+		public RenderData(uint parent)
 		{
-			parent = _parent;
+			Parent = parent;
 			ID = ComponentType.RenderData;
 		}
 	}
 	public struct Collider
 	{
 		bool[,] ColData;
+		public uint Parent;
 		
-		public Collider(uint _parent)
+		public Collider(uint parent)
 		{
-			parent = _parent;
+			Parent = parent;
 			ID = ComponentType.Collider;
 			
 			ColData = BitCollider.GenerateCollisionData(parent);
@@ -180,9 +191,10 @@ namespace CMDR
 	}
 	public struct Static
 	{
+		public uint Parent;
 		public Static(uint parent)
 		{
-			parent = _parent;
+			Parent = parent;
 			ID = ComponentType.Static;
 		}
 	}
