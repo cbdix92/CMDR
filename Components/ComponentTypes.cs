@@ -6,6 +6,7 @@ namespace CMDR.Components
     {
         Transform,
         RenderData,
-        PhysicsConstraints
+        Collider,
+		Static
     }
 }

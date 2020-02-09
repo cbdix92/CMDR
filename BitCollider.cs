@@ -65,5 +65,13 @@ namespace CMDR
 					Data[Y,X] = Bitmap.GetPixel(X,Y).A > BitCollider.AlphaThreshold;
 				}
         }
+		public bool[,] GenerateCollisionData(uint handle)
+		{
+			GameObject gameObject = DataMGR.GameObjects[handle]
+			if(gameObject.Components.ContainsKey(typeof(RenderData))
+			{
+				
+			}
+		}
     }
 }
